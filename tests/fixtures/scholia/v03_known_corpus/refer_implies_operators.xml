@@ -1,0 +1,8 @@
+<Step id="Step_01" name="Inline operators across atoms">
+  <Goal id="G_01" scope="trace" priority="required">Exercise operators.</Goal>
+  <Hypothesis id="H_01">Path A is correct.</Hypothesis>
+  <Evidence for="H_01" polarity="supports">REFER:H_01 — confirmed in logs.</Evidence>
+  <Thinking id="T_01">Observation_01 IMPLIES Finding_01.</Thinking>
+  <Observation id="Observation_01">Observed expected output.</Observation>
+  <Finding id="Finding_01" for_goal="G_01" status="met">Operators work.</Finding>
+</Step>

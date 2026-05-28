@@ -1,0 +1,12 @@
+<Step id="Step_01" name="v0.3.1 — Ref + Meta sub-elements">
+  <Meta criticality="verifier"/>
+  <Goal id="G_01" scope="trace" priority="required">
+    Demonstrate v0.3.1 Ref and Meta sub-elements.
+  </Goal>
+  <Observation id="Obs_01" location="src/scholialang/validator.py:1:100">
+    Validator module — kernel-criticality file.
+    <Ref type="test_owner" target="tests/unit/scholia/test_validator.py"/>
+    <Ref type="doc_owner" target="docs/notation/NOTATION_REFERENCE.md"/>
+  </Observation>
+  <Finding id="F_01" for_goal="G_01" status="met">Ref and Meta parsed.</Finding>
+</Step>

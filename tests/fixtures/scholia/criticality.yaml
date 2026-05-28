@@ -1,0 +1,10 @@
+kernel:
+  - src/scholialang/parser.py
+verifier:
+  - src/scholialang/validator.py
+ledger:
+  - docs/scholia/*.md
+bridge:
+  - src/scholialang/serializer.py
+incidental:
+  - examples/**/*.xml
