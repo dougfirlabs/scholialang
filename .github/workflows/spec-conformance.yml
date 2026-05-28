@@ -18,7 +18,12 @@ jobs:
         run: |
           ref="$(cat scholialang-spec-ref.txt)"
           git clone --depth 1 --branch "$ref" https://github.com/dougfirlabs/scholialang-spec ../scholialang-spec \
-            || git clone --depth 1 https://github.com/dougfirlabs/scholialang-spec ../scholialang-spec
+            || git clone --depth 1 https://github.com/dougfirlabs/scholialang-spec ../scholialang-spec \
+            || {
+              echo "scholialang-spec is not publicly cloneable yet; using mirrored examples for prerelease CI"
+              mkdir -p ../scholialang-spec/examples
+              cp -R tests/fixtures/scholia/v03_known_corpus ../scholialang-spec/examples/
+              cp -R tests/fixtures/scholia/v031_atoms ../scholialang-spec/examples/
+            }
       - name: Validate spec examples
         run: python scripts/run_spec_conformance.py ../scholialang-spec
-
