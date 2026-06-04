@@ -33,4 +33,4 @@ pytest
 
 The language contract and fixture corpus live in
 [`scholialang-spec`](https://github.com/dougfirlabs/scholialang-spec).
-This package tracks Scholia language version `v0.4.0`.
+This package tracks Scholia language version `v0.5.0`.

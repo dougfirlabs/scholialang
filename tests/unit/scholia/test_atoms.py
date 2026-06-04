@@ -1,8 +1,11 @@
 """Tests for scholialang.atoms — the shared contract."""
 from __future__ import annotations
 
+import warnings
+
 from scholialang.atoms import (
     ATOM_KINDS,
+    CRITICALITY_RANK,
     OPERATORS,
     PRIMITIVES,
     Action,
@@ -11,6 +14,7 @@ from scholialang.atoms import (
     Branch,
     Budget,
     Confidence,
+    Concluding,
     Constraint,
     Contradiction,
     Cost,
@@ -40,12 +44,11 @@ from scholialang.atoms import (
 )
 
 
-# Spec requires 27 atoms in v0.2 plus 4 v0.3.1 primitive-hook
-# reservations (Edge, Effect, Ref, Meta — see
-# ``docs/scholia/SCHOLIA_v0.3.1_SPEC.md``). v0.4-B populates Edge as
-# the code-graph sub-element (PRD rsi-scholia-v0.4-code-graph-metadata).
-def test_atom_catalog_has_v0_3_1_count():
-    assert len(ATOM_KINDS) == 27 + 4
+# v0.5 locks the closed set at 32 atoms: the v0.4 catalog plus the
+# chain-level ``Concluding`` close atom.
+def test_atom_catalog_has_v0_5_count():
+    assert len(ATOM_KINDS) == 32
+    assert "Concluding" in ATOM_KINDS
 
 
 # Spec requires exactly 11 operators.
@@ -66,6 +69,7 @@ def test_primitive_catalog_has_6_primitives():
 ALL_ATOMS = [
     Thinking, Observation, Action,
     Hypothesis, Evidence, Finding, Contradiction, Uncertainty, Retract,
+    Concluding,
     Deciding, Alternative, Branch, Loop, Parallel,
     Storing, Print, Reference, Implication,
     Handoff, Question, Review,
@@ -75,7 +79,10 @@ ALL_ATOMS = [
 
 def test_every_atom_kind_instantiates():
     for cls in ALL_ATOMS:
-        instance = cls()
+        if cls is Concluding:
+            instance = cls(for_goal="G_01")
+        else:
+            instance = cls()
         assert isinstance(instance, Atom)
         assert cls.kind in ATOM_KINDS
         assert instance.kind == cls.kind
@@ -92,6 +99,49 @@ def test_evidence_carries_for_ref_and_polarity():
     ev = Evidence(for_ref="H_01", polarity="supports", content="x")
     assert ev.for_ref == "H_01"
     assert ev.polarity == "supports"
+
+
+def test_finding_uses_for_hyp_canonical_reference():
+    f = Finding(id="F_01", for_hyp="H_01", status="met")
+    assert f.for_hyp == "H_01"
+    assert f.for_goal is None
+
+
+def test_finding_for_goal_emits_deprecation_warning():
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        Finding(id="F_01", for_goal="G_01", status="met")
+    deprecations = [
+        warning
+        for warning in caught
+        if issubclass(warning.category, DeprecationWarning)
+    ]
+    assert len(deprecations) == 1
+    assert "for_hyp" in str(deprecations[0].message)
+
+
+def test_finding_from_legacy_maps_for_goal_without_alias():
+    f = Finding.from_legacy(
+        {"id": "F_01", "for_goal": "G_01", "status": "met"}
+    )
+    assert f.for_hyp == "G_01"
+    assert f.for_goal is None
+
+
+def test_concluding_requires_goal_reference():
+    c = Concluding(id="C_01", for_goal="G_01", confidence=0.8)
+    assert c.for_goal == "G_01"
+    assert c.confidence == 0.8
+
+
+def test_criticality_rank_ordering_is_locked():
+    assert CRITICALITY_RANK == {
+        "incidental": 0,
+        "bridge": 1,
+        "ledger": 2,
+        "verifier": 3,
+        "kernel": 4,
+    }
 
 
 def test_confidence_carries_level_and_basis():

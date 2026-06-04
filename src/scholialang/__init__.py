@@ -1,10 +1,10 @@
-"""Scholia — structured reasoning notation (v0.4).
+"""Scholia — structured reasoning notation (v0.5).
 
 See ``docs/notation/NOTATION_REFERENCE.md`` for the canonical spec.
 
 The package contains the language-level modules:
 
-* :mod:`scholialang.atoms` — 27 atom dataclasses + 11 operators +
+* :mod:`scholialang.atoms` — 32 atom dataclasses + 11 operators +
   6 primitive type aliases matching the reference doc.
 * :mod:`scholialang.parser` — XML-ish text → AST.
 * :mod:`scholialang.serializer` — AST ↔ JSON ↔ YAML roundtrip.
@@ -27,6 +27,7 @@ from scholialang.atoms import (
     Branch,
     Budget,
     Confidence,
+    Concluding,
     Constraint,
     Contradiction,
     Cost,
@@ -63,6 +64,7 @@ __all__ = [
     "Branch",
     "Budget",
     "Confidence",
+    "Concluding",
     "Constraint",
     "Contradiction",
     "Cost",
