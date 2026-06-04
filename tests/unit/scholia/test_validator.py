@@ -7,6 +7,7 @@ import time
 from scholialang.atoms import (
     Action,
     Atom,
+    Concluding,
     Constraint,
     Deciding,
     Evidence,
@@ -177,6 +178,23 @@ def test_retract_consistent_fail_target_not_finding():
     assert errs and errs[0].rule == RULE_RETRACT_CONSISTENT
 
 
+def test_retract_consistent_pass_goal_and_concluding_targets():
+    g = Goal(id="G_01")
+    c = Concluding(id="C_01", for_goal="G_01")
+    trace = [
+        Step(
+            id="S",
+            atoms=[
+                g,
+                c,
+                Retract(id="R_01", target="G_01", reason="downgrade"),
+                Retract(id="R_02", target="C_01", reason="superseded"),
+            ],
+        )
+    ]
+    assert check_retract_consistent(trace, _idx(trace)) == []
+
+
 def test_retract_consistent_fail_missing_target():
     r = Retract(id="R_01", target="F_nope", reason="x")
     trace = [Step(id="S", atoms=[r])]
@@ -216,7 +234,9 @@ def test_goal_declared_pass_with_required_goal_status_finding():
             id="S",
             atoms=[
                 Goal(id="G_01", priority="required"),
-                Finding(id="F_01", for_goal="G_01", status="met"),
+                Finding.from_legacy(
+                    {"id": "F_01", "for_goal": "G_01", "status": "met"}
+                ),
             ],
         )
     ]
@@ -245,7 +265,7 @@ def test_goal_declared_fail_status_finding_missing_status():
             id="S",
             atoms=[
                 Goal(id="G_01", priority="required"),
-                Finding(id="F_01", for_goal="G_01"),
+                Finding.from_legacy({"id": "F_01", "for_goal": "G_01"}),
             ],
         )
     ]
@@ -269,7 +289,7 @@ def test_goal_declared_partially_met_status_passes():
                 Goal(id="G_01", priority="required"),
                 Finding(
                     id="F_01",
-                    for_goal="G_01",
+                    for_hyp="G_01",
                     status="partially_met",
                     content="one criterion remains",
                 ),
@@ -291,7 +311,9 @@ def test_goal_reference_integrity_checks_for_goal_and_related_constraints():
             id="S",
             atoms=[
                 Goal(id="G_01", related_constraints=["C_missing"]),
-                Finding(id="F_01", for_goal="G_missing", status="met"),
+                Finding.from_legacy(
+                    {"id": "F_01", "for_goal": "G_missing", "status": "met"}
+                ),
             ],
         )
     ]

@@ -100,6 +100,8 @@ def _atom_from_dict(payload: dict[str, Any]) -> Atom:
             raise ValueError(f"Unknown Scholia atom kind: {kind!r}")
         atom = Atom()
         atom.kind = kind
+    elif kind == "Concluding":
+        atom = cls(for_goal=payload.get("for_goal"))
     else:
         atom = cls()
     atom.id = payload.get("id")
@@ -108,7 +110,14 @@ def _atom_from_dict(payload: dict[str, Any]) -> Atom:
     for field_name in KIND_SPECIFIC_FIELDS.get(kind, ()):
         wire_key = wire_name(field_name)
         if wire_key in payload:
-            setattr(atom, field_name, payload[wire_key])
+            if (
+                kind == "Finding"
+                and field_name == "for_goal"
+                and "for_hyp" not in payload
+            ):
+                setattr(atom, "for_hyp", payload[wire_key])
+            else:
+                setattr(atom, field_name, payload[wire_key])
     atom.children = [_atom_from_dict(c) for c in payload.get("children", [])]
     return atom
 
