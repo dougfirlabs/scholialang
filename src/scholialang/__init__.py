@@ -1,24 +1,18 @@
-"""Scholia — structured reasoning notation (v0.5).
+"""Scholia notation substrate — v0.5.
 
-See ``docs/notation/NOTATION_REFERENCE.md`` for the canonical spec.
+The canonical Scholia notation package. Pure stdlib; the atom catalog,
+validator, parser, and serializer live here. v0.5 freezes the closed set
+at 32 atom kinds with the addition of `<Concluding>` (epistemic close).
 
-The package contains the language-level modules:
-
-* :mod:`scholialang.atoms` — 32 atom dataclasses + 11 operators +
-  6 primitive type aliases matching the reference doc.
-* :mod:`scholialang.parser` — XML-ish text → AST.
-* :mod:`scholialang.serializer` — AST ↔ JSON ↔ YAML roundtrip.
-* :mod:`scholialang.validator` — validity rules from §9.
-* :mod:`scholialang.renderer` — AST → Markdown for humans.
-* :mod:`scholialang.stable_ids` — deterministic atom IDs.
-* :mod:`scholialang.criticality` — criticality metadata helpers.
-* :mod:`scholialang.effects` — effect metadata helpers.
-* :mod:`scholialang.test_ownership` — test-ownership metadata helpers.
+Spec source: ``docs/notation/NOTATION_REFERENCE.md`` in the OpenTalon
+repo plus the per-atom specs under ``docs/papers/scholia-v2/``.
 """
-from __future__ import annotations
-
 from scholialang.atoms import (
     ATOM_KINDS,
+    CANONICAL_OPERATORS,
+    CRITICALITY_RANK,
+    KIND_SPECIFIC_FIELDS,
+    KNOWN_KINDS,
     OPERATORS,
     PRIMITIVES,
     Action,
@@ -26,12 +20,14 @@ from scholialang.atoms import (
     Atom,
     Branch,
     Budget,
-    Confidence,
     Concluding,
+    Confidence,
     Constraint,
     Contradiction,
     Cost,
     Deciding,
+    Edge,
+    Effect,
     Evidence,
     EventRef,
     Finding,
@@ -40,35 +36,75 @@ from scholialang.atoms import (
     Hypothesis,
     Implication,
     Loop,
+    Meta,
     Observation,
     Operator,
     Parallel,
     Print,
     Question,
+    Ref,
     Reference,
     Retract,
     Review,
     Step,
     Storing,
     Thinking,
+    Trace,
     Uncertainty,
+    atom_class_for_kind,
+    atom_to_xml,
+    parse_atom,
+    parse_trace,
+    trace_to_xml,
+)
+from scholialang.validator import (
+    HARD_FAIL_RULES,
+    RULE_CRITICALITY_NON_DECREASING,
+    RULE_FOR_GOAL_RESOLVES,
+    RULE_MIN_CONFIDENCE_CEILING,
+    RULE_NAMES,
+    RULE_NO_ACTION_IN_CONCLUDING,
+    RULE_REFER_AT_LEAST_ONE,
+    RULE_SINGLE_ACTIVE_CONCLUDING_PER_GOAL,
+    SEVERITY_ERROR,
+    SEVERITY_WARNING,
+    WARNING_RULES,
+    Violation,
+    validate,
 )
 
 __all__ = [
     "ATOM_KINDS",
+    "CANONICAL_OPERATORS",
+    "CRITICALITY_RANK",
+    "HARD_FAIL_RULES",
+    "KIND_SPECIFIC_FIELDS",
+    "KNOWN_KINDS",
     "OPERATORS",
     "PRIMITIVES",
+    "RULE_CRITICALITY_NON_DECREASING",
+    "RULE_FOR_GOAL_RESOLVES",
+    "RULE_MIN_CONFIDENCE_CEILING",
+    "RULE_NAMES",
+    "RULE_NO_ACTION_IN_CONCLUDING",
+    "RULE_REFER_AT_LEAST_ONE",
+    "RULE_SINGLE_ACTIVE_CONCLUDING_PER_GOAL",
+    "SEVERITY_ERROR",
+    "SEVERITY_WARNING",
+    "WARNING_RULES",
     "Action",
     "Alternative",
     "Atom",
     "Branch",
     "Budget",
-    "Confidence",
     "Concluding",
+    "Confidence",
     "Constraint",
     "Contradiction",
     "Cost",
     "Deciding",
+    "Edge",
+    "Effect",
     "Evidence",
     "EventRef",
     "Finding",
@@ -77,16 +113,26 @@ __all__ = [
     "Hypothesis",
     "Implication",
     "Loop",
+    "Meta",
     "Observation",
     "Operator",
     "Parallel",
     "Print",
     "Question",
+    "Ref",
     "Reference",
     "Retract",
     "Review",
     "Step",
     "Storing",
     "Thinking",
+    "Trace",
     "Uncertainty",
+    "Violation",
+    "atom_class_for_kind",
+    "atom_to_xml",
+    "parse_atom",
+    "parse_trace",
+    "trace_to_xml",
+    "validate",
 ]

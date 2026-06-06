@@ -1,5 +1,0 @@
-<Step id="Step_01" name="Decision with branch closure">
-  <Goal id="G_01" scope="trace" priority="required">Pick a path.</Goal>
-  <Deciding id="D_01" options="ship, defer" chose="ship">tests are green.</Deciding>
-  <Finding id="F_final" for_goal="G_01" status="met">Shipped.</Finding>
-</Step>

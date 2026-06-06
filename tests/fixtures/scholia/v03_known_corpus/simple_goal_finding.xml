@@ -1,5 +1,0 @@
-<Step id="Step_01" name="Simple goal + finding closure">
-  <Goal id="G_01" scope="trace" priority="required">Ship a small change.</Goal>
-  <Action id="A_01">Edit file foo.py.</Action>
-  <Finding id="F_01" for_goal="G_01" status="met">File edited.</Finding>
-</Step>

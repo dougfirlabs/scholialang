@@ -1,0 +1,8 @@
+<Trace>
+  <Step id="step_01" name="v0.4 trace replay — must pass v0.5 validator with zero new-rule violations">
+    <Goal id="G_01" scope="trace" priority="required">Confirm pre-v0.5 traces parse-and-validate cleanly under the v0.5 validator.</Goal>
+    <Hypothesis id="H_01">The new rules gate on Concluding presence; a Concluding-free trace bypasses all six.</Hypothesis>
+    <Evidence id="E_01" for="H_01" polarity="supports">REFER:H_01 — validator.validate() short-circuits when no Concluding atoms are present.</Evidence>
+    <Finding id="F_01" for_hyp="H_01" status="met">REFER:E_01 confirms the back-compat contract.</Finding>
+  </Step>
+</Trace>

@@ -1,0 +1,8 @@
+<Trace>
+  <Step id="step_01" name="All three hard-fail rules trip in one trace via two Concludings">
+    <Goal id="G_01" priority="required" criticality="kernel">Kernel goal closed below tier.</Goal>
+    <Finding id="F_01" for_hyp="H_01" status="met">A supporting finding.</Finding>
+    <Concluding id="Concl_01" for_goal="G_missing" criticality="kernel">REFER:F_01 — for_goal dangling.</Concluding>
+    <Concluding id="Concl_02" for_goal="G_01" criticality="incidental">No REFER token in this body, and criticality drops kernel to incidental.</Concluding>
+  </Step>
+</Trace>

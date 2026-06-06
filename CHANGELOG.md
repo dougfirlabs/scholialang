@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.6.0
+
+- Mirrors the OpenTalon in-tree `scholialang` package for the v0.6
+  content-addressable atom migration.
+- Adds canonical atom IDs plus compact prior-atom prelude rendering for
+  `REFER:sha256:<id>` workflows.
+- Adds a canonical-ID registry surface for lazy reference lookup.
+
 ## v0.5.0
 
 - Adds the `Concluding` atom as the chain-level epistemic close.

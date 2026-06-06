@@ -1,9 +1,0 @@
-<Step id="Step_01" name="Hypothesis tested with evidence">
-  <Goal id="G_01" scope="trace" priority="required">Test a hypothesis.</Goal>
-  <Hypothesis id="H_01">The merge will produce no conflicts.</Hypothesis>
-  <Observation id="Obs_01" timestamp="2026-05-22T12:00:00-07:00">
-    Ran git merge-tree; output was empty.
-  </Observation>
-  <Evidence for="H_01" polarity="supports">merge-tree produced no conflicts.</Evidence>
-  <Finding id="F_01" for_goal="G_01" status="met">Hypothesis confirmed.</Finding>
-</Step>

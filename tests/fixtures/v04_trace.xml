@@ -1,0 +1,6 @@
+<Trace>
+  <Step id="step_01" name="Pre-v0.5 trace — uses for_goal on Finding, no Concluding">
+    <Goal id="G_01" scope="trace" priority="required">Verify the v04 fixture parses under the v0.5 substrate without emitting deprecation warnings.</Goal>
+    <Finding id="F_01" for_goal="G_01" status="met">REFER:G_01 closed; legacy Finding shape parses cleanly.</Finding>
+  </Step>
+</Trace>

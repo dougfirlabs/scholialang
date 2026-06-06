@@ -1,5 +1,0 @@
-<Step id="Step_01" name="Research-mode trace — Goal closure exempt">
-  <Meta:research-mode/>
-  <Goal id="G_01" scope="trace" priority="required">Explore the codebase.</Goal>
-  <Observation id="Obs_01">Read several files.</Observation>
-</Step>

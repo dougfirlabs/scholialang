@@ -1,0 +1,8 @@
+<Trace>
+  <Step id="step_01" name="Mixed — for_goal dangling + refer-set empty">
+    <Goal id="G_01" scope="trace" priority="required">Real goal that exists in the trace.</Goal>
+    <Finding id="F_01" for_hyp="H_01" status="met">A finding for some unrelated hypothesis.</Finding>
+    <Concluding id="Concl_01" for_goal="G_missing" confidence="0.9">REFER:F_01 — body cites a finding but the for_goal is dangling.</Concluding>
+    <Concluding id="Concl_02" for_goal="G_01" confidence="0.8">Body has no REFER token at all; for_goal resolves cleanly.</Concluding>
+  </Step>
+</Trace>

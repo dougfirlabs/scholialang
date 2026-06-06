@@ -1,0 +1,10 @@
+<Trace>
+  <Step id="step_01" name="Mixed — Retract authorises criticality downgrade AND retires superseded Concluding">
+    <Goal id="G_01" scope="trace" priority="required" criticality="kernel">Kernel goal whose criticality was reclassified mid-run.</Goal>
+    <Finding id="F_01" for_hyp="H_01" status="met">A supporting finding.</Finding>
+    <Concluding id="Concl_01" for_goal="G_01" confidence="0.9" criticality="kernel">REFER:F_01 — original close on the kernel chain.</Concluding>
+    <Retract id="R_01" target="Concl_01" reason="superseded after criticality reclassified">Retract original close.</Retract>
+    <Retract id="R_02" target="G_01" reason="criticality reclassified to bridge after impact-scoping observation">Authorize criticality downgrade.</Retract>
+    <Concluding id="Concl_02" for_goal="G_01" confidence="0.8" criticality="bridge">REFER:F_01 — new bridge-level close after the reclassification.</Concluding>
+  </Step>
+</Trace>

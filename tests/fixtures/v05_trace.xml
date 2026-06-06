@@ -1,0 +1,7 @@
+<Trace>
+  <Step id="step_01" name="v0.5 trace — for_hyp on Finding plus a Concluding closing the Goal">
+    <Goal id="G_01" scope="trace" priority="required">Verify the v05 fixture parses cleanly and includes a Concluding atom.</Goal>
+    <Hypothesis id="H_01">The new Concluding atom is recognised by the closed-set parser.</Hypothesis>
+    <Concluding id="Concl_01" for_goal="G_01" confidence="0.92">REFER:H_01 supports the close; the v0.5 catalog contains Concluding.</Concluding>
+  </Step>
+</Trace>

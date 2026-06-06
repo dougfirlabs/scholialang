@@ -1,0 +1,10 @@
+<Trace>
+  <Step id="step_01" name="Mixed — two active Concludings + min-confidence + action modal">
+    <Goal id="G_01" scope="trace" priority="required">A goal closed twice (one too many) with epistemic overreach.</Goal>
+    <Hypothesis id="H_01">A test hypothesis.</Hypothesis>
+    <Finding id="F_01" for_hyp="H_01" status="met">The closing chain — but uncertain.</Finding>
+    <Uncertainty id="U_01" on="F_01" confidence="0.6">F_01 only holds under specific conditions.</Uncertainty>
+    <Concluding id="Concl_01" for_goal="G_01" confidence="0.92">REFER:F_01 — we recommend the close even though confidence is partial.</Concluding>
+    <Concluding id="Concl_02" for_goal="G_01" confidence="0.7">REFER:F_01 — a second active close on the same goal.</Concluding>
+  </Step>
+</Trace>

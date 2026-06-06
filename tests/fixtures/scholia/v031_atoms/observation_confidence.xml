@@ -1,9 +1,0 @@
-<Step id="Step_01" name="v0.3.1 — Observation with confidence">
-  <Goal id="G_01" scope="trace" priority="required">
-    Demonstrate v0.3.1 confidence attribute.
-  </Goal>
-  <Observation id="Obs_01" confidence="0.85">
-    Module-level imports appear unused.
-  </Observation>
-  <Finding id="F_01" for_goal="G_01" status="met">Confidence attribute parsed.</Finding>
-</Step>

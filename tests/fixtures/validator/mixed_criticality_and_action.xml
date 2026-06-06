@@ -1,0 +1,7 @@
+<Trace>
+  <Step id="step_01" name="Mixed — criticality downgrade + action-modal in body">
+    <Goal id="G_01" scope="trace" priority="required" criticality="kernel">Kernel goal — silent downgrade is forbidden.</Goal>
+    <Finding id="F_01" for_hyp="H_01" status="met">A finding the Concluding can cite.</Finding>
+    <Concluding id="Concl_01" for_goal="G_01" confidence="0.9" criticality="bridge">REFER:F_01 — we should ship the patch and recommend a fast follow-up.</Concluding>
+  </Step>
+</Trace>

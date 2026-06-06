@@ -1,0 +1,11 @@
+<Trace>
+  <Step id="step_01" name="Complex but clean — multiple Goals, elevation, attached Meta criticality">
+    <Goal id="G_01" scope="trace" priority="required" criticality="bridge">A bridge-class goal.</Goal>
+    <Goal id="G_02" scope="trace" priority="optional" criticality="ledger">A ledger-class goal.</Goal>
+    <Hypothesis id="H_01">A test hypothesis.</Hypothesis>
+    <Finding id="F_01" for_hyp="H_01" status="met">A supporting finding.</Finding>
+    <Finding id="F_02" for_hyp="H_01" status="met">A second supporting finding.</Finding>
+    <Concluding id="Concl_01" for_goal="G_01" confidence="0.9" criticality="kernel">REFER:F_01 — elevation to kernel after a systemic concern surfaced.</Concluding>
+    <Concluding id="Concl_02" for_goal="G_02" confidence="0.85" criticality="ledger">REFER:F_02 — clean match-tier close.</Concluding>
+  </Step>
+</Trace>
