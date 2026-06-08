@@ -1,0 +1,175 @@
+{
+  "_comment": "Golden canonical_id vectors frozen from the v0.6 reference implementation (opentalon-v06-qf/scholialang/src/scholialang/atoms.py, committed 2026-06-06 by Darren). The standalone scholialang hasher MUST reproduce each expected_canonical_id byte-for-byte. Hasher contract: 'sha256:' + first 12 hex of SHA-256 over canonical JSON {kind, content.strip(), attrs} (json.dumps sort_keys=True, separators=(',',':')); provenance (timestamp/run_id/wall_clock/sequence/instance) and base bookkeeping (id/canonical_id/children/operators/kind) excluded. Shared with PRD-02. Do NOT regenerate against the standalone tree \u2014 these are the cross-implementation lock.",
+  "source": "opentalon-v06-qf/scholialang/src/scholialang/atoms.py",
+  "hasher": "compute_canonical_id (sha256:<12hex> over {kind, content.strip(), attrs})",
+  "vectors": [
+    {
+      "kind": "Goal",
+      "kwargs": {
+        "content": "Find the root cause",
+        "scope": "trace",
+        "criticality": "kernel"
+      },
+      "expected_canonical_id": "sha256:e2005440cd67"
+    },
+    {
+      "kind": "Goal",
+      "kwargs": {
+        "content": ""
+      },
+      "expected_canonical_id": "sha256:07e39af51cd0"
+    },
+    {
+      "kind": "Goal",
+      "kwargs": {
+        "content": "Ship the release",
+        "priority": "required"
+      },
+      "expected_canonical_id": "sha256:efcc9a5eaeb4"
+    },
+    {
+      "kind": "Finding",
+      "kwargs": {
+        "content": "it reproduces",
+        "for_hyp": "H_1",
+        "status": "confirmed"
+      },
+      "expected_canonical_id": "sha256:f333a112b21d"
+    },
+    {
+      "kind": "Finding",
+      "kwargs": {
+        "content": "it reproduces",
+        "for_hyp": "H_1",
+        "status": "refuted"
+      },
+      "expected_canonical_id": "sha256:e833bcc992c4"
+    },
+    {
+      "kind": "Observation",
+      "kwargs": {
+        "content": "ls output",
+        "location": "src/x.py:1:9",
+        "confidence": "0.9",
+        "timestamp": "2026-06-06T08:00:00Z"
+      },
+      "expected_canonical_id": "sha256:038e746d5ff0"
+    },
+    {
+      "kind": "Observation",
+      "kwargs": {
+        "content": "ls output",
+        "location": "src/x.py:1:9",
+        "confidence": "0.9",
+        "timestamp": "2020-01-01T00:00:00Z"
+      },
+      "expected_canonical_id": "sha256:038e746d5ff0"
+    },
+    {
+      "kind": "Hypothesis",
+      "kwargs": {
+        "content": "cache leaks"
+      },
+      "expected_canonical_id": "sha256:11d5e670a857"
+    },
+    {
+      "kind": "Concluding",
+      "kwargs": {
+        "content": "REFER:f1 closes it",
+        "for_goal": "g1",
+        "confidence": 0.9,
+        "criticality": "kernel"
+      },
+      "expected_canonical_id": "sha256:04ae03c8e446"
+    },
+    {
+      "kind": "Evidence",
+      "kwargs": {
+        "content": "log shows leak",
+        "for_ref": "H_1",
+        "polarity": "support"
+      },
+      "expected_canonical_id": "sha256:4ef3d2e69273"
+    },
+    {
+      "kind": "Constraint",
+      "kwargs": {
+        "content": "never delete prod",
+        "scope": "repo"
+      },
+      "expected_canonical_id": "sha256:8ce8ff2264d3"
+    },
+    {
+      "kind": "EventRef",
+      "kwargs": {
+        "content": "evt",
+        "for_ref": "F_1",
+        "run_id": "r1",
+        "sequence": 5,
+        "instance": "i1"
+      },
+      "expected_canonical_id": "sha256:b8a85c2714be"
+    },
+    {
+      "kind": "EventRef",
+      "kwargs": {
+        "content": "evt",
+        "for_ref": "F_1",
+        "run_id": "r9",
+        "sequence": 9,
+        "instance": "i9"
+      },
+      "expected_canonical_id": "sha256:b8a85c2714be"
+    },
+    {
+      "kind": "Thinking",
+      "kwargs": {
+        "content": "weigh both options"
+      },
+      "expected_canonical_id": "sha256:41845178a200"
+    },
+    {
+      "kind": "Deciding",
+      "kwargs": {
+        "content": "pick A or B",
+        "options": [
+          "A",
+          "B"
+        ]
+      },
+      "expected_canonical_id": "sha256:24b695671e43"
+    },
+    {
+      "kind": "Budget",
+      "kwargs": {
+        "content": "cap",
+        "for_ref": "F_1",
+        "tokens": 1000,
+        "actions": 10,
+        "wall_clock_ms": 5000
+      },
+      "expected_canonical_id": "sha256:8ba8935bc25a"
+    },
+    {
+      "kind": "Cost",
+      "kwargs": {
+        "content": "spent",
+        "for_ref": "F_1",
+        "tokens": 900,
+        "wall_clock_ms": 4800,
+        "dollars": 0.12
+      },
+      "expected_canonical_id": "sha256:ac6d41179727"
+    },
+    {
+      "kind": "Retract",
+      "kwargs": {
+        "content": "undo",
+        "target": "F_1",
+        "reason": "stale",
+        "replacement": "F_2"
+      },
+      "expected_canonical_id": "sha256:2d8fac57b059"
+    }
+  ]
+}
