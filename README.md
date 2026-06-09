@@ -55,6 +55,15 @@ pytest
 
 This package tracks Scholia language version `v0.6.0`.
 
+## License
+
+The `scholialang` reference implementation is dual-licensed under either
+MIT or Apache-2.0, at your option. See `LICENSE`, `LICENSE-MIT`, and
+`LICENSE-APACHE`.
+
+The normative specification prose lives in `scholialang-spec` and is licensed
+separately under CC-BY-4.0.
+
 Useful launch links:
 
 - Spec: https://scholialang.org/spec
