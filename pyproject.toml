@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "scholialang"
 version = "0.6.0"
-description = "Reference implementation for the Scholialang structured reasoning language"
+description = "Scholia reference implementation (parser, validator, core primitives): helps agentic systems preserve reasoning state, use tools without quality loss, and reduce context cost across long-horizon work"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT OR Apache-2.0"

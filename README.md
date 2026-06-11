@@ -12,11 +12,13 @@
 
 # scholialang
 
-`scholialang` is the Python reference implementation for Scholia, a
-structured reasoning notation for agent traces.
+Scholia helps agentic systems preserve reasoning state, use tools without
+quality loss, and reduce context cost across long-horizon work. `scholialang`
+is the Python reference implementation of the language: the parser, validator,
+and core primitives that make Scholia traces portable, inspectable, and
+reusable across sessions.
 
-Scholia v0.6 makes agent reasoning portable, inspectable, and reusable
-across sessions using content-addressed reasoning traces. The v0.6 language
+Scholia v0.6 builds on content-addressed reasoning traces. The v0.6 language
 keeps the v0.5 closed vocabulary and adds the content-addressed substrate:
 optional `canonical_id` hashes, a canonical-id-keyed DAG registry, and the
 three core lazy-prelude modes `hash_only`, `hash_list`, and `inline`.
