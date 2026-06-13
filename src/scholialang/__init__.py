@@ -28,7 +28,7 @@ The package contains the language-level modules:
 """
 from __future__ import annotations
 
-__version__ = "0.6.0"
+__version__ = "0.6.1"
 
 from scholialang.atoms import (
     ATOM_KINDS,

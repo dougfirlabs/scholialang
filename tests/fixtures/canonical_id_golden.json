@@ -1,6 +1,6 @@
 {
-  "_comment": "Golden canonical_id vectors frozen from the v0.6 reference implementation (opentalon-v06-qf/scholialang/src/scholialang/atoms.py, committed 2026-06-06 by Darren). The standalone scholialang hasher MUST reproduce each expected_canonical_id byte-for-byte. Hasher contract: 'sha256:' + first 12 hex of SHA-256 over canonical JSON {kind, content.strip(), attrs} (json.dumps sort_keys=True, separators=(',',':')); provenance (timestamp/run_id/wall_clock/sequence/instance) and base bookkeeping (id/canonical_id/children/operators/kind) excluded. Shared with PRD-02. Do NOT regenerate against the standalone tree \u2014 these are the cross-implementation lock.",
-  "source": "opentalon-v06-qf/scholialang/src/scholialang/atoms.py",
+  "_comment": "Golden canonical_id vectors frozen from the v0.6 reference implementation (committed 2026-06-06). The standalone scholialang hasher MUST reproduce each expected_canonical_id byte-for-byte. Hasher contract: 'sha256:' + first 12 hex of SHA-256 over canonical JSON {kind, content.strip(), attrs} (json.dumps sort_keys=True, separators=(',',':')); provenance (timestamp/run_id/wall_clock/sequence/instance) and base bookkeeping (id/canonical_id/children/operators/kind) excluded. Do NOT regenerate against the standalone tree \u2014 these are the cross-implementation lock.",
+  "source": "scholialang v0.6 reference implementation (compute_canonical_id)",
   "hasher": "compute_canonical_id (sha256:<12hex> over {kind, content.strip(), attrs})",
   "vectors": [
     {

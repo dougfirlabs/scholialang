@@ -26,7 +26,7 @@ flat PRD-01 file). Concurrent writers serialize through ``fcntl.LOCK_EX``
 advisory locking. Default path: ``~/.scholia/registry.proofchain.json``.
 
 The in-memory DAG return shapes (``ProofChain``/``ProofNode``/``ProofEdge``)
-are provided by the self-contained :mod:`scholialang._proofdag` shim — the
+are provided by the self-contained :mod:`scholialang._proofchain` shim — the
 on-disk format does not depend on them.
 """
 from __future__ import annotations
@@ -40,7 +40,7 @@ from dataclasses import fields as dc_fields
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Optional
 
-from scholialang._proofdag import (
+from scholialang._proofchain import (
     DerivationMethod,
     ProofChain,
     ProofEdge,

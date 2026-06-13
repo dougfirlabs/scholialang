@@ -1,5 +1,31 @@
 # Changelog
 
+## v0.6.1
+
+The `<Concluding>` status release. A `<Concluding>` may now carry an
+**optional** `status` attribute recording the terminal disposition of the
+Goal it closes, aligning the reference parser/validator with the ratified
+v0.6.1 spec contract.
+
+- **`<Concluding status=...>`** — `status` is an optional enum
+  (`met|unmet|partially_met`) on the `Concluding` dataclass and in
+  `KIND_SPECIFIC_FIELDS['Concluding']`. The parser accepts it, the
+  serializer round-trips it, and `compute_canonical_id` folds it into the
+  content hash only when present. A status-less `<Concluding>` parses and
+  validates exactly as before (v0.5/v0.6.0 back-compat).
+- **Validator** — when `status` is present it must be one of
+  `met|unmet|partially_met`; an out-of-enum value is a hard validation
+  error (under the `v031_optional_fields` rule). The `goal_declared` rule
+  now reads `Concluding.status`: a required Goal is closed by a status-less
+  Concluding (back-compat) or one carrying an in-enum status.
+- **Versions** — the package version (`pyproject` + `__version__`) and
+  `SCHOLIA_VALIDATOR_VERSION` both move to `0.6.1`. The registry format
+  version stays `0.6` (it tracks the on-disk format, not the patch).
+- **Publish hygiene** — internal references were scrubbed from `src/`,
+  `tests/`, and fixtures, and a CI leak guard
+  (`tests/unit/scholia/test_public_hygiene.py`) now hard-fails on the
+  forbidden token set across `src/`, `tests/`, and `scripts/`.
+
 ## v0.6.0
 
 The content-addressable-IDs release. v0.6 makes the substrate's portability

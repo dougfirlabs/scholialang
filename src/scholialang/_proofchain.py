@@ -1,20 +1,19 @@
-"""Self-contained proof-DAG shapes for the v0.6 Scholia registry.
+"""Self-contained proof-chain shapes for the v0.6 Scholia registry.
 
-v0.6 compatibility shim — pending the canonical DAG spec.
+v0.6 compatibility shim — pending the canonical proof-chain spec.
 
-The v0.6 reference implementation backs its DAG registry with an internal
-``ProofChain`` shape. The standalone ``scholialang`` package must not depend on
-private product code, so this module provides a minimal, field-compatible
-stand-in: the same dataclass field names and enum value strings the registry's
-``walk_chain`` / ``to_proof_chain`` / ``chain_to_dict`` /
-``chain_from_dict`` paths use, so a serialized chain is shape-identical across
-implementations.
+The v0.6 reference implementation backs its registry with a ``ProofChain``
+shape. The standalone ``scholialang`` package keeps this dependency-free, so
+this module provides a minimal, field-compatible stand-in: the same dataclass
+field names and enum value strings the registry's ``walk_chain`` /
+``to_proof_chain`` / ``chain_to_dict`` / ``chain_from_dict`` paths use, so a
+serialized chain is shape-identical across implementations.
 
 This is deliberately the *least* load-bearing part of the v0.6 port — the
 registry's on-disk format (``{version, atoms, edges}``) does not reference
-these shapes at all; they are only the in-memory return type of the DAG
-query methods. When the canonical DAG spec lands, this shim is the single file
-to reconcile.
+these shapes at all; they are only the in-memory return type of the
+query methods. When the canonical proof-chain spec lands, this shim is the
+single file to reconcile.
 """
 from __future__ import annotations
 
