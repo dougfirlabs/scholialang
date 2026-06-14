@@ -8,12 +8,11 @@ the new optional fields) and asserts 100% validation pass.
 If this test breaks, the v0.3.1 release has regressed the backwards-
 compatibility promise; the offending change is not safe to ship.
 
-For full-corpus replay against a real atlas sweep (e.g. the 1,651-
-artifact oproduction batch), set ``OPENTALON_SCHOLIA_CORPUS_DIR`` to a
-directory of ``.xml`` traces; ``test_external_corpus_*`` walks every
-file under it and asserts a configurable failure-rate ceiling. This
-keeps the committed fixture set small while still letting operators
-gate on real-world artifacts.
+For full-corpus replay against a real production sweep, set
+``SCHOLIA_CORPUS_DIR`` to a directory of ``.xml`` traces;
+``test_external_corpus_*`` walks every file under it and asserts a
+configurable failure-rate ceiling. This keeps the committed fixture set
+small while still letting operators gate on real-world artifacts.
 """
 from __future__ import annotations
 
@@ -32,8 +31,8 @@ from scholialang.validator import (
 _FIXTURES_ROOT = Path(__file__).parent.parent.parent / "fixtures" / "scholia"
 _V03_CORPUS = _FIXTURES_ROOT / "v03_known_corpus"
 _V031_CORPUS = _FIXTURES_ROOT / "v031_atoms"
-_EXTERNAL_CORPUS_ENV = "OPENTALON_SCHOLIA_CORPUS_DIR"
-_EXTERNAL_FAILURE_CEILING_ENV = "OPENTALON_SCHOLIA_CORPUS_FAILURE_CEILING"
+_EXTERNAL_CORPUS_ENV = "SCHOLIA_CORPUS_DIR"
+_EXTERNAL_FAILURE_CEILING_ENV = "SCHOLIA_CORPUS_FAILURE_CEILING"
 
 
 def _xml_fixtures(root: Path) -> list[Path]:
@@ -88,7 +87,7 @@ def test_corpus_dirs_have_fixtures() -> None:
 
 
 def _external_corpus_dir() -> Path | None:
-    """Resolve ``OPENTALON_SCHOLIA_CORPUS_DIR`` to a directory or None.
+    """Resolve ``SCHOLIA_CORPUS_DIR`` to a directory or None.
 
     Empty/unset → None (test is skipped). Existing path → used.
     Non-existent path → fail loudly so misconfigured CI surfaces it.
@@ -125,11 +124,11 @@ def _failure_ceiling() -> float:
     ),
 )
 def test_external_corpus_replay_under_v031() -> None:
-    """Walk every ``.xml`` under ``$OPENTALON_SCHOLIA_CORPUS_DIR`` and
+    """Walk every ``.xml`` under ``$SCHOLIA_CORPUS_DIR`` and
     assert the failure rate stays under the configured ceiling.
 
     This is the load-bearing v0.3.1 corpus-replay test: pointed at a
-    real atlas sweep, it proves the strict-closed-set check + the new
+    real production sweep, it proves the strict-closed-set check + the new
     optional-field rules don't regress the live artifact stream. The
     in-tree fixture tests above only cover representative shapes; this
     test covers shape *coverage* at production scale when wired up.
