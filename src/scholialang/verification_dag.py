@@ -1,19 +1,20 @@
-"""Self-contained proof-chain shapes for the v0.6 Scholia registry.
+"""Self-contained verification-DAG shapes for the v0.6 Scholia registry.
 
-v0.6 compatibility shim — pending the canonical proof-chain spec.
+v0.6 compatibility shim — pending the canonical verification-DAG spec.
 
-The v0.6 reference implementation backs its registry with a ``ProofChain``
-shape. The standalone ``scholialang`` package keeps this dependency-free, so
+The v0.6 reference implementation backs its registry with a content-addressed
+DAG of verification relationships — a ``VerificationDag`` shape, not a linear
+chain. The standalone ``scholialang`` package keeps this dependency-free, so
 this module provides a minimal, field-compatible stand-in: the same dataclass
-field names and enum value strings the registry's ``walk_chain`` /
-``to_proof_chain`` / ``chain_to_dict`` / ``chain_from_dict`` paths use, so a
-serialized chain is shape-identical across implementations.
+field names and enum value strings the registry's ``walk_dag`` /
+``to_verification_dag`` / ``dag_to_dict`` / ``dag_from_dict`` paths use, so a
+serialized DAG is shape-identical across implementations.
 
 This is deliberately the *least* load-bearing part of the v0.6 port — the
 registry's on-disk format (``{version, atoms, edges}``) does not reference
 these shapes at all; they are only the in-memory return type of the
-query methods. When the canonical proof-chain spec lands, this shim is the
-single file to reconcile.
+query methods. When the canonical verification-DAG spec lands, this shim is
+the single file to reconcile.
 """
 from __future__ import annotations
 
@@ -24,7 +25,7 @@ from typing import Any
 
 class ProofNodeType(str, Enum):
     """Coarse classification of a proof node. Value strings match the
-    upstream ``ProofNodeType`` so ``chain_to_dict`` output is
+    upstream ``ProofNodeType`` so ``dag_to_dict`` output is
     cross-implementation stable."""
 
     AXIOM = "AXIOM"
@@ -65,7 +66,7 @@ class ProofEdge:
 
 
 @dataclass
-class ProofChain:
+class VerificationDag:
     conclusion_id: str = ""
     nodes: list[ProofNode] = field(default_factory=list)
     edges: list[ProofEdge] = field(default_factory=list)
@@ -78,5 +79,5 @@ __all__ = [
     "DerivationMethod",
     "ProofNode",
     "ProofEdge",
-    "ProofChain",
+    "VerificationDag",
 ]

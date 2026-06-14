@@ -7,8 +7,8 @@ A flat ``canonical_id``-keyed store (PRD-01) plus a DAG over the operator
 graph: when atom A's body carries ``REFER:sha256:<B>`` or
 ``IMPLIES:sha256:<B>``, an edge ``premise_id=<B> -> conclusion_id=<A>`` is
 recorded (A was derived from B). ``ancestors`` walks the premise side,
-``descendants`` walks the conclusion side, ``walk_chain`` returns the
-proof chain rooted at a canonical_id.
+``descendants`` walks the conclusion side, ``walk_dag`` returns the
+verification DAG rooted at a canonical_id.
 
 Storage shape on disk::
 
@@ -23,11 +23,11 @@ Storage shape on disk::
 
 A missing ``edges`` key loads as an empty edge list (back-compat with a
 flat PRD-01 file). Concurrent writers serialize through ``fcntl.LOCK_EX``
-advisory locking. Default path: ``~/.scholia/registry.proofchain.json``.
+advisory locking. Default path: ``~/.scholia/registry.verification_dag.json``.
 
-The in-memory DAG return shapes (``ProofChain``/``ProofNode``/``ProofEdge``)
-are provided by the self-contained :mod:`scholialang._proofchain` shim — the
-on-disk format does not depend on them.
+The in-memory DAG return shapes (``VerificationDag``/``ProofNode``/``ProofEdge``)
+are provided by the self-contained :mod:`scholialang.verification_dag` shim —
+the on-disk format does not depend on them.
 """
 from __future__ import annotations
 
@@ -40,17 +40,17 @@ from dataclasses import fields as dc_fields
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Optional
 
-from scholialang._proofchain import (
+from scholialang.verification_dag import (
     DerivationMethod,
-    ProofChain,
     ProofEdge,
     ProofNode,
     ProofNodeType,
+    VerificationDag,
 )
 from scholialang.atoms import Atom
 
 
-_DEFAULT_REGISTRY_PATH = Path.home() / ".scholia" / "registry.proofchain.json"
+_DEFAULT_REGISTRY_PATH = Path.home() / ".scholia" / "registry.verification_dag.json"
 _REGISTRY_FORMAT_VERSION = "0.6"
 
 # Base-Atom bookkeeping fields excluded from the ``attrs`` slice of the
@@ -144,15 +144,15 @@ def _atom_to_record(
     return record
 
 
-# ── ProofChain serialization helpers ────────────────────────────────
+# ── VerificationDag serialization helpers ───────────────────────────
 
 
-def chain_to_dict(chain: ProofChain) -> dict[str, Any]:
-    """Serialize a :class:`ProofChain` to a plain JSON-safe ``dict``."""
+def dag_to_dict(dag: VerificationDag) -> dict[str, Any]:
+    """Serialize a :class:`VerificationDag` to a plain JSON-safe ``dict``."""
     return {
-        "conclusion_id": chain.conclusion_id,
-        "is_complete": chain.is_complete,
-        "total_confidence": chain.total_confidence,
+        "conclusion_id": dag.conclusion_id,
+        "is_complete": dag.is_complete,
+        "total_confidence": dag.total_confidence,
         "nodes": [
             {
                 "node_id": n.node_id,
@@ -161,7 +161,7 @@ def chain_to_dict(chain: ProofChain) -> dict[str, Any]:
                 "confidence": n.confidence,
                 "metadata": dict(n.metadata),
             }
-            for n in chain.nodes
+            for n in dag.nodes
         ],
         "edges": [
             {
@@ -173,13 +173,13 @@ def chain_to_dict(chain: ProofChain) -> dict[str, Any]:
                 "confidence": e.confidence,
                 "metadata": dict(e.metadata),
             }
-            for e in chain.edges
+            for e in dag.edges
         ],
     }
 
 
-def chain_from_dict(data: dict[str, Any]) -> ProofChain:
-    """Rebuild a :class:`ProofChain` from a :func:`chain_to_dict` payload."""
+def dag_from_dict(data: dict[str, Any]) -> VerificationDag:
+    """Rebuild a :class:`VerificationDag` from a :func:`dag_to_dict` payload."""
     nodes = [
         ProofNode(
             node_id=n.get("node_id", ""),
@@ -204,7 +204,7 @@ def chain_from_dict(data: dict[str, Any]) -> ProofChain:
         )
         for e in data.get("edges", [])
     ]
-    return ProofChain(
+    return VerificationDag(
         conclusion_id=data.get("conclusion_id", ""),
         nodes=nodes,
         edges=edges,
@@ -217,7 +217,7 @@ class Registry:
     """DAG-backed file-backed canonical_id store.
 
     In-memory, atoms live as a dict keyed by canonical_id; edges live as a
-    list of dicts that ``ancestors`` / ``descendants`` / ``walk_chain``
+    list of dicts that ``ancestors`` / ``descendants`` / ``walk_dag``
     traverse. A coarse-grained lock-and-rewrite is acceptable for v0.6
     throughput.
     """
@@ -468,8 +468,8 @@ class Registry:
 
         return [self._cache[cid] for cid in ordered if cid in self._cache]
 
-    def walk_chain(self, canonical_id: str) -> ProofChain:
-        """Return the :class:`ProofChain` rooted at ``canonical_id``.
+    def walk_dag(self, canonical_id: str) -> VerificationDag:
+        """Return the :class:`VerificationDag` rooted at ``canonical_id``.
 
         Includes the node for ``canonical_id`` (if stored) plus every
         ancestor reachable via REFER/IMPLIES, and every edge whose
@@ -512,15 +512,15 @@ class Registry:
                 )
             )
 
-        return ProofChain(
+        return VerificationDag(
             conclusion_id=canonical_id,
             nodes=nodes,
             edges=included_edges,
             is_complete=is_complete,
         )
 
-    def to_proof_chain(self) -> ProofChain:
-        """Return the entire registry as a single :class:`ProofChain`."""
+    def to_verification_dag(self) -> VerificationDag:
+        """Return the entire registry as a single :class:`VerificationDag`."""
         self._ensure_loaded()
         nodes = [
             ProofNode(
@@ -540,7 +540,7 @@ class Registry:
             )
             for e in self._edges
         ]
-        return ProofChain(
+        return VerificationDag(
             conclusion_id="",
             nodes=nodes,
             edges=edges,
@@ -550,6 +550,6 @@ class Registry:
 
 __all__ = [
     "Registry",
-    "chain_to_dict",
-    "chain_from_dict",
+    "dag_to_dict",
+    "dag_from_dict",
 ]

@@ -45,6 +45,7 @@ _SKIP_DIR_PARTS = frozenset({"__pycache__"})
 _FORBIDDEN: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("host-orchestrator name", re.compile(r"opentalon", re.IGNORECASE)),
     ("internal proof-DAG module name", re.compile(r"proofdag", re.IGNORECASE)),
+    ("interim verification-DAG module name", re.compile(r"proofchain", re.IGNORECASE)),
     ("Co-Pilot strategic phrasing", re.compile(r"co-?pilot", re.IGNORECASE)),
     ("internal ticket reference", re.compile(r"\bT42\b")),
     ("internal ticket reference", re.compile(r"\bT6x7\b")),
@@ -137,7 +138,7 @@ def test_leak_guard_passes_clean_file(tmp_path):
 
 @pytest.mark.parametrize(
     "token",
-    ["opentalon", "OpenTalon", "proofdag", "Co-Pilot", "T42", "T6x7", "v06-qf"],
+    ["opentalon", "OpenTalon", "proofdag", "proofchain", "Co-Pilot", "T42", "T6x7", "v06-qf"],
 )
 def test_each_forbidden_token_is_caught(tmp_path, token):
     """Every forbidden token shape is independently detectable."""
