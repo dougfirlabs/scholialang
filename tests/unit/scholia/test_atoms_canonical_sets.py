@@ -25,7 +25,7 @@ from scholialang.atoms import (
 def test_canonical_operators_matches_v04_spec_enum():
     # v0.4 (2026-05-11) — operator-driven mass-promotion brings the
     # validator-ratified set in line with the full ``Operator`` enum
-    # ahead of the pre-MS-Co-Pilot benchmark window. CANONICAL_OPERATORS
+    # ahead of a benchmark window. CANONICAL_OPERATORS
     # must equal the set of all values declared by the spec enum.
     from scholialang.atoms import OPERATORS
 

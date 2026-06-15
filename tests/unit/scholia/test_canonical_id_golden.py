@@ -1,12 +1,11 @@
-"""Byte-identity check — local hasher vs frozen v06-qf golden vectors.
+"""Byte-identity check — local hasher vs frozen golden vectors.
 
 The golden vectors in ``tests/fixtures/canonical_id_golden.json`` were frozen
-from the v0.6 reference implementation
-(``opentalon-v06-qf/scholialang/src/scholialang/atoms.py``, committed
-2026-06-06). This test reconstructs each vector atom from its stored kwargs and
-asserts the standalone ``compute_canonical_id`` reproduces the reference id
-byte-for-byte. It is the cross-implementation lock for the canonical_id
-contract (shared with PRD-02); a single mismatch is a release blocker.
+from the v0.6 reference implementation. This test reconstructs each vector
+atom from its stored kwargs and asserts the standalone
+``compute_canonical_id`` reproduces the reference id byte-for-byte. It is the
+cross-implementation lock for the canonical_id contract; a single mismatch is
+a release blocker.
 """
 from __future__ import annotations
 
@@ -32,7 +31,7 @@ def test_golden_fixture_present_and_substantial():
     assert len(vectors) >= 10, f"expected >=10 golden vectors, got {len(vectors)}"
 
 
-def test_local_canonical_ids_match_v06qf_golden_vectors():
+def test_local_canonical_ids_match_golden_vectors():
     vectors = _load_vectors()
     mismatches: list[str] = []
     for v in vectors:
@@ -44,7 +43,7 @@ def test_local_canonical_ids_match_v06qf_golden_vectors():
                 f"{v['kind']} {v['kwargs']}: got {got} "
                 f"expected {v['expected_canonical_id']}"
             )
-    assert not mismatches, "canonical_id drift from v06-qf golden vectors:\n" + "\n".join(
+    assert not mismatches, "canonical_id drift from golden vectors:\n" + "\n".join(
         mismatches
     )
 

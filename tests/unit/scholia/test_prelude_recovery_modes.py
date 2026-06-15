@@ -1,6 +1,6 @@
 """v0.6 EXPERIMENTAL prelude recovery arms — hash_semantic_preview + selective_inline.
 
-Ported from the v06-qf reference (``tests/test_prelude_recovery_modes.py``).
+Ported from the v0.6 reference (``tests/test_prelude_recovery_modes.py``).
 These two modes post-date the 2026-06-06 golden-records manifest and are
 shipped as an EXPERIMENTAL extension — they are NOT part of the finalized
 v0.6 core (``CORE_PRELUDE_MODES``) and must be opted into explicitly via

@@ -1,5 +1,40 @@
 # Changelog
 
+## v0.6.1
+
+The `<Concluding>` status release. A `<Concluding>` may now carry an
+**optional** `status` attribute recording the terminal disposition of the
+Goal it closes, aligning the reference parser/validator with the ratified
+v0.6.1 spec contract.
+
+- **`<Concluding status=...>`** — `status` is an optional enum
+  (`met|unmet|partially_met`) on the `Concluding` dataclass and in
+  `KIND_SPECIFIC_FIELDS['Concluding']`. The parser accepts it, the
+  serializer round-trips it, and `compute_canonical_id` folds it into the
+  content hash only when present. A status-less `<Concluding>` parses and
+  validates exactly as before (v0.5/v0.6.0 back-compat).
+- **Validator** — when `status` is present it must be one of
+  `met|unmet|partially_met`; an out-of-enum value is a hard validation
+  error (under the `v031_optional_fields` rule). The `goal_declared` rule
+  now reads `Concluding.status`: a required Goal is closed by a status-less
+  Concluding (back-compat) or one carrying an in-enum status.
+- **Versions** — the package version (`pyproject` + `__version__`) and
+  `SCHOLIA_VALIDATOR_VERSION` both move to `0.6.1`. The registry format
+  version stays `0.6` (it tracks the on-disk format, not the patch).
+- **Publish hygiene** — internal references were scrubbed from `src/`,
+  `tests/`, and fixtures, and a CI leak guard
+  (`tests/unit/scholia/test_public_hygiene.py`) now hard-fails on the
+  forbidden token set across `src/`, `tests/`, and `scripts/`.
+- **Registry DAG naming** — the registry's in-memory return type is now
+  `VerificationDag` (a content-addressed DAG of verification relationships,
+  not a linear chain), surfaced via `walk_dag` / `to_verification_dag` /
+  `dag_to_dict` / `dag_from_dict` and backed by the
+  `scholialang.verification_dag` shim. The default on-disk registry path
+  becomes `~/.scholia/registry.verification_dag.json`. This settles the
+  interim v0.6.0 DAG-shape naming before the v0.6.1 publish, so the
+  registry's public surface debuts under the accurate `verification_dag`
+  name rather than the inaccurate "chain" framing.
+
 ## v0.6.0
 
 The content-addressable-IDs release. v0.6 makes the substrate's portability
@@ -24,8 +59,9 @@ implementation — frozen golden vectors assert this in CI
   (`put`/`get`/`find_by_kind`/`ancestors`/`descendants`/`walk_chain`/
   `to_proof_chain`), on-disk `{"version": "0.6", "atoms", "edges"}` with
   `fcntl` locking; `REFER:`/`IMPLIES:` `sha256:` operators form
-  premise→conclusion DAG edges. Backed by the in-repo self-contained
-  `_proofdag` shim — **no `opentalon` dependency** in the standalone package.
+  premise→conclusion DAG edges. Backed by an in-repo self-contained
+  DAG-shapes shim — **no external-orchestrator dependency** in the
+  standalone package.
 - **`scholialang.prelude`** — new canonical-prelude renderer. The three
   **core v0.6 modes** (`CORE_PRELUDE_MODES`) are `hash_only` (~30 c/atom),
   `hash_list` (~70-100 c/atom, the **default**), and `inline` (v0.5

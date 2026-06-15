@@ -33,7 +33,7 @@ EXPERIMENTAL recovery arms (NOT v0.6 core)
 Two additional render modes — ``hash_semantic_preview`` and
 ``selective_inline_plus_hash_only`` — were designed by the v0.6
 quality-recovery work *after* the 2026-06-06 golden-records manifest was
-frozen. They are shipped here for continuity with the v06-qf reference and
+frozen. They are shipped here for continuity with the v0.6 reference and
 its test corpus, but they are **experimental**: they are NOT part of the
 finalized v0.6 lazy-prelude contract, are excluded from
 :data:`CORE_PRELUDE_MODES`, and must be explicitly opted into via

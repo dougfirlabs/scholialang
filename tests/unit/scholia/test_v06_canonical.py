@@ -23,7 +23,7 @@ from scholialang.atoms import (
 )
 from scholialang.parser import parse, parse_atom
 from scholialang.prelude import build_canonical_prelude
-from scholialang.registry import Registry, chain_from_dict, chain_to_dict
+from scholialang.registry import Registry, dag_from_dict, dag_to_dict
 from scholialang.validator import (
     RULE_CANONICAL_ID_WELL_FORMED,
     RULE_NAMES,
@@ -168,7 +168,7 @@ def test_registry_put_get_and_edges():
         assert "Concluding" in descendants
 
 
-def test_registry_walk_chain_and_disk_format():
+def test_registry_walk_dag_and_disk_format():
     f = parse_atom('<Finding id="f1" for_hyp="h1" status="confirmed">repro</Finding>')
     c = parse_atom(
         f'<Concluding for_goal="g1" confidence="0.9">REFER:{f.canonical_id}</Concluding>'
@@ -178,16 +178,16 @@ def test_registry_walk_chain_and_disk_format():
         reg = Registry(path)
         reg.put(f)
         reg.put(c)
-        chain = reg.walk_chain(c.canonical_id)
-        assert chain.conclusion_id == c.canonical_id
-        assert len(chain.nodes) == 2
-        assert len(chain.edges) == 1
-        assert chain.is_complete
+        dag = reg.walk_dag(c.canonical_id)
+        assert dag.conclusion_id == c.canonical_id
+        assert len(dag.nodes) == 2
+        assert len(dag.edges) == 1
+        assert dag.is_complete
 
-        # chain round-trips through dict
-        rt = chain_from_dict(chain_to_dict(chain))
-        assert rt.conclusion_id == chain.conclusion_id
-        assert len(rt.nodes) == len(chain.nodes)
+        # dag round-trips through dict
+        rt = dag_from_dict(dag_to_dict(dag))
+        assert rt.conclusion_id == dag.conclusion_id
+        assert len(rt.nodes) == len(dag.nodes)
 
         # on-disk format is v0.6 {version, atoms, edges}
         import json

@@ -62,7 +62,7 @@ def test_validation_result_reports_validator_version():
     trace = _wrap(Observation(id="Obs_01"))
     result = validate(trace)
     assert result.scholia_validator_version == SCHOLIA_VALIDATOR_VERSION
-    assert result.scholia_validator_version == "0.6.0"
+    assert result.scholia_validator_version == "0.6.1"
 
 
 # ── Backwards-compat: v0.3 atoms validate unchanged ──────────────────
