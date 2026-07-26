@@ -67,7 +67,7 @@ pytest
 - [`scholialang-mcp`](https://github.com/dougfirlabs/scholialang-mcp) -
   MCP, LSP, and host plugin tooling
 
-This package tracks Scholia language version `v0.6.0`.
+This package tracks Scholia language version `v0.6.2`.
 
 ## License
 
