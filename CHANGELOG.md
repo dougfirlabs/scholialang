@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.6.2
+
+The recursive Action-result closure release. Rule 4 (`action_recorded`) now
+recognizes an explicitly linked result emitted later in the trace, including
+across Step boundaries, without weakening provenance requirements.
+
+- **Later linked Finding** — a later `Finding` records an `Action` when it
+  `REFER`s the Action directly, or when it `REFER`s an `Observation`/`Evidence`
+  that itself `REFER`s the Action.
+- **Goal-closing Concluding** — a later `Concluding` records an `Action` when it
+  directly `REFER`s the Action and carries `for_goal`.
+- **Graph projection compatibility** — callers may optionally pass a duck-typed
+  graph exposing `has_edge(...)`; a `records_result` edge targeting the Action
+  records its result. Existing `validate(trace)` calls are unchanged.
+- **Strict ordering** — nested and immediate sibling conclusions remain valid,
+  but chronological order alone does not qualify a non-immediate result.
+- **Versions** — the package version and `SCHOLIA_VALIDATOR_VERSION` both move
+  to `0.6.2`.
+
 ## v0.6.1
 
 The `<Concluding>` status release. A `<Concluding>` may now carry an
