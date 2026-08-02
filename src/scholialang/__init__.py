@@ -76,6 +76,7 @@ from scholialang.atoms import (
     Uncertainty,
     atom_to_xml,
     compute_canonical_id,
+    is_valid_fingerprint,
 )
 from scholialang.parser import parse, parse_atom
 from scholialang.prelude import (
@@ -86,6 +87,7 @@ from scholialang.prelude import (
 from scholialang.registry import Registry
 from scholialang.validator import (
     RULE_CANONICAL_ID_WELL_FORMED,
+    RULE_FINGERPRINT_WELL_FORMED,
     RULE_NAMES,
     ValidationError,
     ValidationResult,
@@ -141,6 +143,7 @@ __all__ = [
     "Uncertainty",
     "atom_to_xml",
     "compute_canonical_id",
+    "is_valid_fingerprint",
     # parser
     "parse",
     "parse_atom",
@@ -151,6 +154,7 @@ __all__ = [
     "ValidationWarning",
     "ValidationResult",
     "RULE_CANONICAL_ID_WELL_FORMED",
+    "RULE_FINGERPRINT_WELL_FORMED",
     "RULE_NAMES",
     # v0.6 registry + prelude
     "Registry",
