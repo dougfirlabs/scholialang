@@ -37,6 +37,16 @@ yaml = pytest.importorskip("yaml")
 
 
 _SPEC_ENV = "SCHOLIALANG_SPEC_DIR"
+# Set by the dedicated spec-conformance workflow (which checks out
+# scholialang-spec at the merged fingerprint contract commit). When "1", a
+# missing corpus is a hard failure instead of a skip — the conformance gate
+# must prove all six fixtures run, never report green while validating zero
+# (scholialang#18).
+_REQUIRE_ENV = "SCHOLIALANG_REQUIRE_FINGERPRINT_FIXTURES"
+_REQUIRED_FIXTURES = frozenset({
+    "valid_fingerprint", "moved_symbol_rebind", "ignore_if_absent",
+    "malformed_hash", "span_mismatch", "stale_fingerprint",
+})
 _FIXTURE_SUBPATH = Path("tests") / "fixtures" / "fingerprint"
 
 
@@ -62,8 +72,13 @@ def _find_fixture_dir() -> Path | None:
 
 _FIXTURE_DIR = _find_fixture_dir()
 
+_REQUIRE_FIXTURES = os.environ.get(_REQUIRE_ENV) == "1"
+
+# Skip the shared-corpus module ONLY in an isolated checkout that does not
+# require the corpus. When the conformance workflow sets _REQUIRE_ENV, absence
+# is NOT skipped — the fail-closed guard below turns it red.
 pytestmark = pytest.mark.skipif(
-    _FIXTURE_DIR is None,
+    _FIXTURE_DIR is None and not _REQUIRE_FIXTURES,
     reason=(
         f"scholialang-spec fingerprint fixtures not found; set {_SPEC_ENV} or "
         "place a scholialang-spec checkout beside this repo (shared corpus, "
@@ -72,8 +87,31 @@ pytestmark = pytest.mark.skipif(
 )
 
 
+def test_fingerprint_corpus_present_when_required() -> None:
+    """Fail closed for the dedicated conformance gate (scholialang#18).
+
+    When ``_REQUIRE_ENV`` is set (spec-conformance.yml, spec checked out at the
+    merged contract commit), all six shared fixtures must be discovered — a
+    missing corpus or a truncated manifest is RED, never a green skip.
+    """
+    if not _REQUIRE_FIXTURES:
+        pytest.skip(f"{_REQUIRE_ENV} not set (isolated checkout)")
+    assert _FIXTURE_DIR is not None, (
+        f"{_REQUIRE_ENV}=1 but no scholialang-spec fingerprint corpus resolved"
+    )
+    names = set(_fixture_ids())
+    missing = _REQUIRED_FIXTURES - names
+    assert not missing, f"{_REQUIRE_ENV}=1 but corpus missing fixtures: {sorted(missing)}"
+
+
 def _manifest() -> dict:
-    assert _FIXTURE_DIR is not None
+    # Called at COLLECTION time via the parametrize decorator below, i.e.
+    # BEFORE the module-level skipif can take effect. It must therefore be
+    # safe when the shared spec checkout is absent (isolated CI): return an
+    # empty manifest so parametrize enumerates nothing and the module skips
+    # cleanly, instead of hard-asserting during collection (scholialang#18).
+    if _FIXTURE_DIR is None:
+        return {}
     return yaml.safe_load((_FIXTURE_DIR / "manifest.yaml").read_text(encoding="utf-8"))
 
 

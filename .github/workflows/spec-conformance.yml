@@ -14,16 +14,28 @@ jobs:
           python-version: "3.11"
       - name: Install package
         run: python -m pip install -e ".[dev]"
-      - name: Clone pinned spec
+      - name: Clone pinned spec at exact ref
+        # scholialang-spec-ref.txt pins the merged fingerprint contract
+        # commit (a full SHA, not a tag). `git clone --branch` cannot resolve
+        # an arbitrary SHA, so clone then fetch+checkout the exact commit —
+        # works for a SHA, tag, or branch alike (scholialang#18).
         run: |
-          ref="$(cat scholialang-spec-ref.txt)"
-          git clone --depth 1 --branch "$ref" https://github.com/dougfirlabs/scholialang-spec ../scholialang-spec \
-            || git clone --depth 1 https://github.com/dougfirlabs/scholialang-spec ../scholialang-spec \
-            || {
-              echo "scholialang-spec is not publicly cloneable yet; using mirrored examples for prerelease CI"
-              mkdir -p ../scholialang-spec/examples
-              cp -R tests/fixtures/scholia/v03_known_corpus ../scholialang-spec/examples/
-              cp -R tests/fixtures/scholia/v031_atoms ../scholialang-spec/examples/
-            }
+          ref="$(tr -d '[:space:]' < scholialang-spec-ref.txt)"
+          echo "pinned scholialang-spec ref: ${ref}"
+          git clone --filter=blob:none https://github.com/dougfirlabs/scholialang-spec ../scholialang-spec
+          git -C ../scholialang-spec fetch --depth 1 origin "${ref}"
+          git -C ../scholialang-spec checkout --detach "${ref}"
+          echo "checked out: $(git -C ../scholialang-spec rev-parse HEAD)"
+          test -f ../scholialang-spec/tests/fixtures/fingerprint/manifest.yaml \
+            || { echo "::error::fingerprint fixtures absent at pinned ref ${ref}"; exit 1; }
       - name: Validate spec examples
         run: python scripts/run_spec_conformance.py ../scholialang-spec
+      - name: Fingerprint fixture conformance (fail-closed, all six)
+        # REQUIRE=1 turns a missing/truncated corpus RED instead of a green
+        # skip; SCHOLIALANG_SPEC_DIR points at the exact-SHA checkout above.
+        env:
+          SCHOLIALANG_SPEC_DIR: ${{ github.workspace }}/../scholialang-spec
+          SCHOLIALANG_REQUIRE_FINGERPRINT_FIXTURES: "1"
+        run: |
+          python -m pytest tests/integration/scholia/test_fingerprint_fixtures.py \
+            tests/unit/scholia/test_fingerprint.py -q
