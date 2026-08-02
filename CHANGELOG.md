@@ -1,5 +1,30 @@
 # Changelog
 
+## Unreleased — proposed (gated on operator contract approval)
+
+The additive `fingerprint=` attribute (proposal:
+`scholialang-spec/docs/scholia/FINGERPRINT.md`). An optional `<algo>:<hex>`
+content hash on location-bearing atoms (`<Observation>` today) so a later
+consumer can mechanically re-verify a code claim against source. This lands
+the reference-implementation half; it stays behind the **operator contract
+approval gate** — it is at most a `0.6.x` point revision and ships no new
+behavior for existing traces.
+
+- **`<Observation fingerprint=...>`** — optional; strictly additive. A
+  fingerprint-less Observation parses, validates, and hashes byte-identically
+  to pre-revision behavior.
+- **`fingerprint_well_formed`** — a new hard-fail validator rule, vacuous when
+  absent (§4). When present the value must match `^[a-z0-9]+:[0-9a-f]+$` and
+  the atom must also carry a `location` (a fingerprint binds a span). The rule
+  is purely structural — it does NOT recompute the digest against source;
+  re-verification is a consumer-side operation (§5).
+- **canonical_id independence** — `fingerprint` is excluded from the
+  `canonical_id` hash (§8): it is the identity of the *code the atom points
+  at*, not of the *atom*. Stripping it is lossless at the identity layer.
+- **Shared fixtures** — the positive/negative corpus is consumed from
+  `scholialang-spec/tests/fixtures/fingerprint/` (single copy, no fork) by
+  both the pytest suite and `scripts/run_spec_conformance.py`.
+
 ## v0.6.2
 
 The recursive Action-result closure release. Rule 4 (`action_recorded`) now
