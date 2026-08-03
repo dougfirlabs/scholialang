@@ -1,14 +1,26 @@
 # Changelog
 
-## Unreleased — proposed (gated on operator contract approval)
+## v0.7.1
 
-The additive `fingerprint=` attribute (proposal:
-`scholialang-spec/docs/scholia/FINGERPRINT.md`). An optional `<algo>:<hex>`
-content hash on location-bearing atoms (`<Observation>` today) so a later
-consumer can mechanically re-verify a code claim against source. This lands
-the reference-implementation half; it stays behind the **operator contract
-approval gate** — it is at most a `0.6.x` point revision and ships no new
-behavior for existing traces.
+**First synchronized suite release.** scholialang and scholialang-mcp advance
+together to 0.7.1; **scholialang 0.7.0 is skipped intentionally** so the two
+packages share one version line going forward. No behavior change for existing
+traces — the release is additive.
+
+- **Additive `fingerprint=` attribute** (contract merged in scholialang-spec,
+  `docs/scholia/FINGERPRINT.md`). An optional `<algo>:<hex>` content hash on
+  location-bearing atoms (`<Observation>` today) so a later consumer can
+  mechanically re-verify a code claim against source. This ships the
+  reference-implementation half; the operator contract-approval gate is now
+  satisfied (spec + reference validator merged). Ignore-if-absent per the
+  `canonical_id` precedent; a single additive `fingerprint_well_formed` rule
+  (hard-fail, vacuous when absent).
+- `SCHOLIA_VALIDATOR_VERSION` advanced to `0.7.1` to track the package version.
+  The fingerprint attribute is itself an additive extension, so the constant is
+  bumped for package-consistency, not to signal a breaking spec change. The
+  shared spec conformance corpus is a separate axis and stays at v0.6.2.
+  `tests/unit/scholia/test_release_versions.py` now pins all three package
+  version surfaces together so they cannot drift by hand.
 
 - **`<Observation fingerprint=...>`** — optional; strictly additive. A
   fingerprint-less Observation parses, validates, and hashes byte-identically

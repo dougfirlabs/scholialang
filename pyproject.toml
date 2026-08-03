@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scholialang"
-version = "0.6.2"
+version = "0.7.1"
 description = "Scholia reference implementation (parser, validator, core primitives): helps agentic systems preserve reasoning state, use tools without quality loss, and reduce context cost across long-horizon work"
 readme = "README.md"
 requires-python = ">=3.11"
