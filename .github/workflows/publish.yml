@@ -4,6 +4,14 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      version:
+        description: >-
+          Version being published (e.g. 0.7.1). Must match pyproject.toml
+          exactly. Required so a manual run cannot silently publish whatever
+          happens to be on the default branch.
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -21,11 +29,46 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install build
-        run: python -m pip install --upgrade build
+      - name: Install release dependencies
+        run: python -m pip install --upgrade build twine ".[dev]"
+
+      # Guard the release before anything is built or uploaded. A PyPI upload
+      # is irreversible (a version number can never be reused), so the version
+      # a run *thinks* it is publishing must match the tree it is publishing
+      # from. Mirrors the guard in scholialang-mcp's publish.yml.
+      - name: Verify release version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          DISPATCH_VERSION: ${{ inputs.version }}
+        run: |
+          PACKAGE_VERSION="$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')"
+          if [ -n "${RELEASE_TAG}" ]; then
+            EXPECTED="v${PACKAGE_VERSION}"
+            ACTUAL="${RELEASE_TAG}"
+            SOURCE="release tag"
+          else
+            EXPECTED="${PACKAGE_VERSION}"
+            ACTUAL="${DISPATCH_VERSION}"
+            SOURCE="workflow_dispatch input"
+          fi
+          echo "pyproject version: ${PACKAGE_VERSION}"
+          echo "${SOURCE}: ${ACTUAL}"
+          if [ "${ACTUAL}" != "${EXPECTED}" ]; then
+            echo "::error::${SOURCE} '${ACTUAL}' does not match pyproject.toml version '${PACKAGE_VERSION}' (expected '${EXPECTED}'). Refusing to publish."
+            exit 1
+          fi
+          echo "Version guard passed."
+
+      # The published artifact must be built from a tree whose tests pass.
+      # Without this a red main could still ship to PyPI.
+      - name: Run tests
+        run: python -m pytest
 
       - name: Build package
         run: python -m build
+
+      - name: Check package metadata
+        run: python -m twine check dist/*
 
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
