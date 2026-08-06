@@ -1,6 +1,6 @@
 """Release-version parity across every version surface in this package.
 
-The 0.7.1 release bumped three constants by hand -- ``pyproject.toml``,
+The 0.7.2 release bumps three constants by hand -- ``pyproject.toml``,
 ``scholialang.__version__``, and ``SCHOLIA_VALIDATOR_VERSION`` -- with nothing
 asserting they agree. A release that ships them out of step is silently wrong:
 the wheel METADATA says one thing and ``ValidationResult`` reports another, and
@@ -21,7 +21,7 @@ import scholialang
 from scholialang.atoms import SCHOLIA_VALIDATOR_VERSION
 
 
-EXPECTED_VERSION = "0.7.1"
+EXPECTED_VERSION = "0.7.2"
 ROOT = Path(__file__).resolve().parents[3]
 
 
@@ -41,7 +41,7 @@ def test_dunder_version_matches_pyproject() -> None:
 def test_validator_version_matches_package_version() -> None:
     """The validator constant tracks the package version.
 
-    This is the 0.7.1 decision (see CHANGELOG): the constant is kept in step
+    This is the synchronized-release decision (see CHANGELOG): the constant is kept in step
     with the package rather than versioned separately. If a future release
     decouples a spec-conformance version from the package version, this is the
     test that should be changed deliberately -- and the module docstring in

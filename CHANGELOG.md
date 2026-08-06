@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.7.2
+
+- Correct `constraint_respected` so noun phrases such as “Never a bare null”
+  do not extract the article `a` as a forbidden verb.
+- Require complete action-token boundaries, preventing `delete` from matching
+  unrelated words such as `undeleted`, while preserving the `Never`, `must
+  not`, and `do not` imperative forms.
+- Add explicit positive/negative regression coverage for the public validator
+  behavior. The stable language grammar remains Scholia v0.6.2; this is a
+  reference-implementation patch release.
+
 ## v0.7.1
 
 **First synchronized suite release.** scholialang and scholialang-mcp advance

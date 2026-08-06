@@ -225,6 +225,65 @@ def test_constraint_respected_fail():
     assert errs and errs[0].rule == RULE_CONSTRAINT_RESPECTED
 
 
+def test_constraint_respected_does_not_treat_article_as_forbidden_verb():
+    """Regression: ``Never a bare null`` must not extract ``a`` as a verb."""
+    c = Constraint(id="C_01", content="Never a bare null.")
+    a = Action(
+        id="A_01",
+        content="Persist a structured result.",
+        children=[Finding(id="F_01")],
+    )
+    trace = [Step(id="S", atoms=[c, a])]
+    assert check_constraint_respected(trace, _idx(trace)) == []
+
+
+def test_constraint_respected_uses_action_token_boundaries():
+    """Regression: ``delete`` must not match the substring in ``undeleted``."""
+    c = Constraint(id="C_01", content="Never delete records.")
+    a = Action(
+        id="A_01",
+        content="Report the undeleted record count.",
+        children=[Finding(id="F_01")],
+    )
+    trace = [Step(id="S", atoms=[c, a])]
+    assert check_constraint_respected(trace, _idx(trace)) == []
+
+
+def test_constraint_respected_supports_must_not_phrase():
+    c = Constraint(id="C_01", content="Agents must not expose credentials.")
+    a = Action(
+        id="A_01",
+        content="Expose the credentials in the log.",
+        children=[Finding(id="F_01")],
+    )
+    trace = [Step(id="S", atoms=[c, a])]
+    errors = check_constraint_respected(trace, _idx(trace))
+    assert [error.atom_id for error in errors] == ["A_01"]
+
+
+def test_constraint_respected_supports_do_not_phrase():
+    c = Constraint(id="C_01", content="Do not overwrite files.")
+    a = Action(
+        id="A_01",
+        content="Overwrite the release file.",
+        children=[Finding(id="F_01")],
+    )
+    trace = [Step(id="S", atoms=[c, a])]
+    errors = check_constraint_respected(trace, _idx(trace))
+    assert [error.atom_id for error in errors] == ["A_01"]
+
+
+def test_constraint_respected_is_not_retroactive():
+    a = Action(
+        id="A_01",
+        content="Delete the disposable fixture.",
+        children=[Finding(id="F_01")],
+    )
+    c = Constraint(id="C_01", content="Never delete fixtures.")
+    trace = [Step(id="S", atoms=[a, c])]
+    assert check_constraint_respected(trace, _idx(trace)) == []
+
+
 # ── Rule 8: goal declared ────────────────────────────────────────────
 
 
