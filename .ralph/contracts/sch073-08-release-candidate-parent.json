@@ -1,0 +1,98 @@
+{
+  "kind": "prd",
+  "schema_version": 1,
+  "status": "draft",
+  "group_id": "scholialang-073-convergence-20260904",
+  "run_policy": "gated_stack",
+  "approval": {
+    "approved": false,
+    "execution_authorized": false,
+    "merge_authorized": false,
+    "release_authorized": false
+  },
+  "authority": "Draft for Darren and Barry review only. No queue registration, agent launch, branch mutation, merge, tag, deployment, upload, marketplace update, or global installation is authorized by publication.",
+  "evidence_contract": "Acceptance binds to full source SHA(s), pinned dependency/spec revisions, clean isolated environment, exact commands and exit codes, required scenario counts with zero skips, artifact hashes, independent verdict, preserved behavior matrix, and rollback notes. Existing green CI does not override a reproducible contract violation.",
+  "id": "sch073-08-release-candidate",
+  "title": "Verify combined 0.7.3 artifacts and present one merge gate",
+  "sequence": 8,
+  "depends_on_prds": [
+    "sch073-01-reconcile-baseline",
+    "sch073-02-integrity-repair",
+    "sch073-03-semantic-contract",
+    "sch073-04-capability-contract",
+    "sch073-05-events",
+    "sch073-06-tasks",
+    "sch073-07-heartbeat"
+  ],
+  "repositories": [
+    "scholialang-spec",
+    "scholialang",
+    "scholialang-mcp",
+    "OpenTalon"
+  ],
+  "problem": "Independent PRs and source-tree tests do not prove that the released package/plugins preserve both development tracks or interoperate with OpenTalon.",
+  "outcome": "One cross-repository release manifest binds reviewed spec/core/MCP/OT candidates, clean artifact evidence, migration/rollback results and residual risks for a consolidated operator merge decision. Release publication remains a separate gate.",
+  "key_files": [
+    "build and release gate scripts",
+    "canonical skill materialization",
+    "wheel/sdist/.mcpb/plugin manifests",
+    "cross-client golden fixtures",
+    "OpenTalon integration tests",
+    "release notes and candidate evidence"
+  ],
+  "hard_constraints": [
+    "Refresh target tips and prove every accepted PRD's behavior is present on cumulative candidates. Test the combined trees after every conflict resolution; prior individual verdicts are not a substitute.",
+    "Build core/MCP wheel and sdist, Claude/Codex/Ollama plugins and supported Desktop .mcpb from clean isolated candidates. Test installed artifacts with repository source removed from import paths.",
+    "Verify pinned canonical dependency and offline vendored fallback separately. Package version, grammar version, protocol revision and each capability must agree with the manifest without being conflated.",
+    "Preserve Doctor/Verify and deterministic materialization; Desktop MCP support is not a claim of native SKILL.md support. Required conformance tests cannot skip due to missing fixtures, SDK or interpreter.",
+    "Exercise OT resource/event/task/lease adapters through supported boundaries in an isolated environment. No live runs, held approvals, production tasks or global installs may be used as test fixtures.",
+    "Produce one final merge proposal naming target branches, full candidate SHAs, merge order, rollback refs, migration backup and reversible deployment procedure. No intermediate stage/master merge.",
+    "Do not tag, upload to PyPI, publish a GitHub release, push a marketplace, globally install or activate production features. Those need explicit later release/deployment authority."
+  ],
+  "stories": [
+    {
+      "id": "SCH073-08-S1",
+      "title": "Build and verify the complete artifact matrix",
+      "description": "Produce hashed artifacts and run canonical/new/adversarial scenarios across package and host surfaces, online canonical and offline vendored paths.",
+      "priority": 1,
+      "passes": 0
+    },
+    {
+      "id": "SCH073-08-S2",
+      "title": "Prove upgrade, recovery and OpenTalon interoperability",
+      "description": "Test disposable 0.7.2 database upgrade, metadata preservation, new-kind behavior, task continuity and reconnect. Document which downgrade paths require restoring a backup.",
+      "priority": 2,
+      "passes": 0
+    },
+    {
+      "id": "SCH073-08-S3",
+      "title": "Independent cumulative review and operator package",
+      "description": "An independent adjudicator tests immutable candidates and closes preservation rows. Present the final multi-repo manifest, PR disposition, caveats, rollback and exact approval scope on Starbird.",
+      "priority": 3,
+      "passes": 0
+    }
+  ],
+  "acceptance": [
+    "Every original preservation row and all new semantic/capability cases pass on the exact shipped artifacts; no required skip, unexpected xfail or source-import leakage.",
+    "Artifact matrix covers wheel, sdist, three plugin bundles and Desktop MCP bundle; supported server copies/materialized skills meet parity checks.",
+    "Supported/unsupported/mixed-version, duplicate/gap/reconnect, cancellation/input replay, timeout/lease and foreign-project scenarios all run with explicit counts.",
+    "Old traces and tags survive migration; no active-task state or historical evidence is lost. Rollback/restore is rehearsed in isolation and limitations are stated.",
+    "Independent cumulative verdict, full SHA manifest, hashes, commands, release notes, target branch proposal and backup/rollback instructions are complete.",
+    "All publication/activation flags remain false; final state is candidate_ready_for_operator_review, not released."
+  ],
+  "verification": "Run all repository-defined canonical/static/hygiene/build gates plus the PRD04 conformance runner against installed artifacts and isolated OT integration. Run source and artifact suites independently; produce machine-readable pass/fail and zero-required-skips summary.",
+  "out_of_scope": [
+    "Automatic public release",
+    "Production deployment or live task migration",
+    "External federation and collaboration portal rollout"
+  ],
+  "rollback": "No production mutation occurs here. Supply tested per-repo commit rollback plus data backup/restore and in-flight-task reconciliation instructions for the later authorized rollout.",
+  "success_metrics": [
+    "Every original preservation row and all new semantic/capability cases pass on the exact shipped artifacts; no required skip, unexpected xfail or source-import leakage.",
+    "Artifact matrix covers wheel, sdist, three plugin bundles and Desktop MCP bundle; supported server copies/materialized skills meet parity checks.",
+    "Supported/unsupported/mixed-version, duplicate/gap/reconnect, cancellation/input replay, timeout/lease and foreign-project scenarios all run with explicit counts.",
+    "Old traces and tags survive migration; no active-task state or historical evidence is lost. Rollback/restore is rehearsed in isolation and limitations are stated.",
+    "Independent cumulative verdict, full SHA manifest, hashes, commands, release notes, target branch proposal and backup/rollback instructions are complete.",
+    "All publication/activation flags remain false; final state is candidate_ready_for_operator_review, not released."
+  ]
+}
