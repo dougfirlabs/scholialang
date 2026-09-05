@@ -1,0 +1,92 @@
+{
+  "kind": "prd",
+  "schema_version": 1,
+  "status": "draft",
+  "group_id": "scholialang-073-convergence-20260904",
+  "run_policy": "gated_stack",
+  "approval": {
+    "approved": false,
+    "execution_authorized": false,
+    "merge_authorized": false,
+    "release_authorized": false
+  },
+  "authority": "Overnight implementation authorized by operator in the program; this specific draft remains receipt-gated. Activate only when PM records accepted dependencies. No shared branch merge/release/deployment or other repository mutation.",
+  "evidence_contract": "Acceptance binds to full source SHA(s), pinned dependency/spec revisions, clean isolated environment, exact commands and exit codes, required scenario counts with zero skips, artifact hashes, independent verdict, preserved behavior matrix, and rollback notes. Existing green CI does not override a reproducible contract violation.",
+  "id": "sch073-03-semantic-contract-scholialang",
+  "title": "Implement proposed additive Map/Event/Task core contract",
+  "sequence": 3,
+  "depends_on_prds": [],
+  "repositories": [
+    "scholialang"
+  ],
+  "problem": "The 0.7.3 vocabulary is scoped in core issue #22, but semantic kinds, relationships, canonical identity and compatibility need one normative implementation contract.",
+  "outcome": "A pinned 0.7.3 specification and core candidate support first-class Map/Event/Task with deterministic validation and round trips, while retaining the meaning of existing 0.7.2 traces.",
+  "key_files": [
+    "specification and notation reference",
+    "canonical atoms/catalog and public exports",
+    "parser/serializer/validator modules",
+    "schemas and golden fixtures",
+    "package version metadata and migration documentation"
+  ],
+  "hard_constraints": [
+    "Document required/optional attributes, canonical ID prefixes, collision scope, relationship legality and examples before implementing each kind. Exact definitions are proposed here, not claimed already ratified.",
+    "Distinguish semantic Task from a runtime MCP task handle; semantic Event from a delivered notification; Map from an unvalidated bag of arbitrary objects. Define explicit correlation fields without collapsing identities.",
+    "Preserve EventRef as a reference to an external event. Define relationships to Action, Goal, Effect and other kinds; adding a Task atom must never execute work or grant authority.",
+    "Keep closed-set validation. Existing 0.7.2 traces remain readable unchanged; a 0.7.2 consumer encountering new kinds gets explicit unsupported-version behavior rather than silent rewriting.",
+    "Canonical package/spec are the single source; MCP vendored fallbacks must later be regenerated from this exact reviewed core, never hand-edited. Keep package, grammar and transport versions separate.",
+    "Use 0.7.3 candidate metadata consistently without creating tags or publishing packages. Resolve a material semantic policy ambiguity with the operator before proceeding beyond approved scope.",
+    "Modify only scholialang in this isolated execution worktree. Related repository semantics are pinned read-only inputs; never mutate sibling/shared checkouts.",
+    "Preserve every historical fixture and ID. New semantic kinds must never grant execution authority. Task runtime and semantic state remain distinct. Mark exact additive contract decisions proposed for operator morning review, not already ratified.",
+    "Create isolated test/build environments; never pip install into shared control-plane venv. Explicitly prove imported core/spec sources match accepted receipts; sibling-source discovery is not proof.",
+    "Final result must include positive and negative conformance tests and immutable evidence. Existing green baseline alone does not establish new feature acceptance."
+  ],
+  "stories": [
+    {
+      "id": "SCH073-03-S2",
+      "title": "Implement canonical core support",
+      "description": "Update atoms, public exports, parsers, serializers, validation and documentation from the contract. Maintain deterministic round-trip and closed-set behavior.",
+      "priority": 2,
+      "passes": 0
+    },
+    {
+      "id": "SCH073-03-S3",
+      "title": "Prove cross-version core artifacts",
+      "description": "Build wheel/sdist in isolation and validate clean installs against old and new shared fixtures, including invalid IDs, dangling references and collisions.",
+      "priority": 3,
+      "passes": 0
+    }
+  ],
+  "acceptance": [
+    "Each new kind has positive and negative fixtures covering every required field, identity rule and legal relation.",
+    "Old 0.7.2 fixtures validate without semantic rewriting; new fixtures round-trip deterministically through supported formats.",
+    "Event and EventRef coexist without reinterpretation; Task creation has no execution side effects.",
+    "Public exports, catalogs, schema, notation and built artifacts agree on the supported kind set and exact contract revision.",
+    "All existing core/spec tests plus new fixtures pass; evidence records the two immutable candidate SHAs and artifact hashes."
+  ],
+  "verification": "Record and run concrete core/spec suite, build and clean-install commands discovered from their contribution/release instructions; drive the same pinned golden corpus through source, wheel and sdist installations.",
+  "out_of_scope": [
+    "MCP transport implementation",
+    "Rewriting historical traces",
+    "Task execution merely from parsing notation"
+  ],
+  "rollback": "Keep prior core/spec refs and artifact hashes. Test rollback on disposable data; do not assume old software can read new kinds.",
+  "success_metrics": [
+    "Each new kind has positive and negative fixtures covering every required field, identity rule and legal relation.",
+    "Old 0.7.2 fixtures validate without semantic rewriting; new fixtures round-trip deterministically through supported formats.",
+    "Event and EventRef coexist without reinterpretation; Task creation has no execution side effects.",
+    "Public exports, catalogs, schema, notation and built artifacts agree on the supported kind set and exact contract revision.",
+    "All existing core/spec tests plus new fixtures pass; evidence records the two immutable candidate SHAs and artifact hashes."
+  ],
+  "target_repo": "scholialang",
+  "target_root": "/home/horselover/projects/opentalon-worktrees/ot-rsi-sch073-night-20260905-core-control",
+  "allowed_drivers": [
+    "claude"
+  ],
+  "coordination_metadata": {
+    "requires_receipts": [
+      "sch073-j03"
+    ],
+    "enforcement": "PM manual accepted-commit and fixture-hash gate",
+    "launch_ready": false
+  }
+}
