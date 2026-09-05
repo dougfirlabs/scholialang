@@ -1,0 +1,17 @@
+# sch073-j04 evidence manifest — 2026-09-05T10:57:31Z
+
+## artifact hashes
+18a21e2db439485ffa63a8160c590dfa7e5388329b547555422fd8ad502b4bbf  /tmp/sch073-j04/dist/scholialang-0.7.3-py3-none-any.whl
+fd913575acf5bfcad49e73c21bc4a346418271a394ee78bc2019d15b3fb49afc  /tmp/sch073-j04/dist/scholialang-0.7.3.tar.gz
+a2e3b34a7fe208748312dca5af09089765f6681da9c95f1a69179573aa84d5c5  /tmp/sch073-j04/old-core.tar
+
+## accepted spec inputs (immutable clone HEAD 4e19eae3e55566dac450c0dbf7bcba03d12afc50)
+8ef6db811290522e6234fbc9d1b748d567aaa3b78f86c536527c98e77a8f3a6e  /home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j03-adjudication/4e19eae3e55566dac450c0dbf7bcba03d12afc50/clones/scholialang-spec/conformance/v0.7/semantic_atoms.json
+eed5d0c6d4ed982a8115e85bc6354b9c37695468f403dd4321bff0612a82366d  /home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j03-adjudication/4e19eae3e55566dac450c0dbf7bcba03d12afc50/clones/scholialang-spec/conformance/v0.7/coverage-inventory.json
+bc1100a06f27c9c448ccd18b252edb3ebc2b06390f84b5cf36fa71f8fee4ee50  /home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j03-adjudication/4e19eae3e55566dac450c0dbf7bcba03d12afc50/clones/scholialang-spec/reference/v0.7/atoms_index.yaml
+
+## log hashes
+a512d6980c89b2e24a797a2f9639bc25cf35f5377f629e7e50c3eee84db1995c  .ralph/evidence/sch073-j04/conformance.log
+f794ea993ed81f5dc2615239248d5f30bb25525591e79ccb9a54611d23cb1e01  .ralph/evidence/sch073-j04/sdist-suite.log
+c6218517f2a617686232514daddbab5650269836fa6791482e5dc7fc5ad3f394  .ralph/evidence/sch073-j04/source-suite.log
+9502dd76ef54c8c025ae07f6bbc77e99e96e2e370fd9000b51b680fa9462d03d  .ralph/evidence/sch073-j04/wheel-suite.log

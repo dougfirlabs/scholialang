@@ -39,13 +39,26 @@ It contains the language-level pieces only:
 Host-runtime concerns such as trace persistence, enrichment,
 adjudication, and proof-graph bridging live outside this package.
 
-## Current v0.6 Scope
+## Current Scope
 
-`scholialang` owns the language runtime for the v0.6 scope: the 32-kind
-closed vocabulary inherited from v0.5, optional `canonical_id` computation and
-validation, canonical-id-aware reference resolution, the local DAG registry
-primitive, and the three finalized lazy-prelude modes. MCP servers, editor
-clients, host plugins, and public launch pages live in sibling repositories.
+`scholialang` owns the language runtime: the closed atom vocabulary,
+optional `canonical_id` computation and validation, canonical-id-aware
+reference resolution, the local DAG registry primitive, and the three
+finalized lazy-prelude modes. MCP servers, editor clients, host plugins,
+and public launch pages live in sibling repositories.
+
+The 0.7.3 candidate implements the PROPOSED additive Map/Event/Task
+semantic contract (grammar `0.7.0`, a separate axis from the package
+version): the closed catalog grows from 32 to 35 kinds, every valid
+legacy trace keeps its meaning, and `validate(..., profile="0.6.2")`
+rejects the new kinds with a structured unsupported-version diagnostic
+instead of silently rewriting them. The frozen 32-kind projection stays
+available as `LEGACY_ATOM_KINDS`. Parsing or validating a `Task` never
+executes work; `runtime_ref` / `external_ref` are opaque correlators,
+never dereferenced and never authority. See
+`docs/scholia/SCHOLIA_v0.7_SPEC.md` and
+`docs/scholia/v06.2-to-v07-migration.md` in `scholialang-spec` for the
+normative contract and migration notes.
 
 ## Install
 
@@ -67,7 +80,10 @@ pytest
 - [`scholialang-mcp`](https://github.com/dougfirlabs/scholialang-mcp) -
   MCP, LSP, and host plugin tooling
 
-This package tracks Scholia language version `v0.6.2`.
+This package tracks Scholia grammar `0.6.2` for released behavior; the
+`0.7.3` candidate additionally implements the proposed grammar `0.7.0`
+(Map/Event/Task) pending ratification. No `0.7.3` release or tag exists
+yet.
 
 ## License
 

@@ -1,0 +1,12 @@
+=== conformance runners ===
+2026-09-05T10:57:14Z
+--- dev ---
+validated 12 scholialang-spec examples, 19 rule fixtures, 204 semantic-suite cases, and 6 fingerprint fixtures
+exit=0
+--- wheel ---
+validated 12 scholialang-spec examples, 19 rule fixtures, 204 semantic-suite cases, and 6 fingerprint fixtures
+exit=0
+--- sdist ---
+validated 12 scholialang-spec examples, 19 rule fixtures, 204 semantic-suite cases, and 6 fingerprint fixtures
+exit=0
+2026-09-05T10:57:15Z

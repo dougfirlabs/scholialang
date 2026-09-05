@@ -44,11 +44,18 @@ from scholialang.atoms import (
 )
 
 
-# v0.5 locks the closed set at 32 atoms: the v0.4 catalog plus the
-# chain-level ``Concluding`` close atom.
-def test_atom_catalog_has_v0_5_count():
-    assert len(ATOM_KINDS) == 32
+# v0.7 (grammar 0.7.0 candidate) grows the closed set to 35 atoms: the
+# 32-kind v0.5/v0.6.2 catalog plus the proposed Map/Event/Task semantic
+# kinds. The legacy 32-kind projection stays frozen as
+# ``LEGACY_ATOM_KINDS``.
+def test_atom_catalog_has_v0_7_count():
+    from scholialang.atoms import LEGACY_ATOM_KINDS, SEMANTIC_ATOM_KINDS
+
+    assert len(ATOM_KINDS) == 35
     assert "Concluding" in ATOM_KINDS
+    assert len(LEGACY_ATOM_KINDS) == 32
+    assert set(ATOM_KINDS) == set(LEGACY_ATOM_KINDS) | set(SEMANTIC_ATOM_KINDS)
+    assert set(SEMANTIC_ATOM_KINDS) == {"Map", "Event", "Task"}
 
 
 # Spec requires exactly 11 operators.

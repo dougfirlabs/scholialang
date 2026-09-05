@@ -1,5 +1,73 @@
 # Changelog
 
+## v0.7.3 (candidate — unreleased, proposed contract)
+
+Implements the PROPOSED additive **Map/Event/Task** semantic contract
+(`docs/scholia/SCHOLIA_v0.7_SPEC.md` in scholialang-spec) as a candidate.
+The semantics remain a proposal pending ratification; **no tag, upload,
+or release accompanies this version**. Package `0.7.3` and grammar
+`0.7.0` are separate axes: the closed atom catalog grows from 32 to 35
+kinds, so the grammar revision advances while every valid legacy trace
+keeps its meaning byte-identically.
+
+- **Three new first-class kinds** with strict per-kind field closure
+  across XML/JSON/YAML/dict input and REQUIRED kind-prefixed local ids
+  (`Map_…` / `Event_…` / `Task_…`; a collision involving a new atom is
+  an error anywhere in the trace):
+  - `<Map>` — a named, homogeneous, finite typed mapping value
+    (`value_type` ∈ `string|integer|boolean|atom_ref`; `entries` is a
+    real mapping — canonical JSON on the XML wire, never Python repr;
+    duplicate keys and nonfinite tokens are rejected while decoding).
+    Distinct from the inline `MAP` primitive, which is unchanged.
+  - `<Event>` — a recorded occurrence, identified by the
+    `(source, occurrence_id)` pair (duplicates in one trace rejected
+    even with matching bodies). RFC3339-with-timezone `timestamp` stays
+    excluded provenance. `EventRef` is unchanged and coexists.
+  - `<Task>` — a declarative work obligation with the author-verdict
+    enum `open|satisfied|unsatisfied|withdrawn`; terminal verdicts
+    REQUIRE `evidence_ref`. A satisfied Task never closes a required
+    Goal, never records an Action's result, and never executes or
+    authorizes anything; `runtime_ref`/`external_ref` are opaque.
+- **Typed reference legality** (`semantic_ref_target_kind`,
+  `map_ref_resolves`): declared reference fields resolve against the
+  complete trace — forward references and canonical-id references
+  included — to their permitted target kinds only; never a Step, never
+  the Map itself.
+- **Grammar profiles**: `validate(trace, profile=…)` is the explicit
+  negotiation entry point. `"0.6.2"` rejects the new kinds with the
+  structured `grammar_profile_unsupported` diagnostic (never a silent
+  down-conversion); unknown profiles are rejected the same way. The
+  frozen legacy projection is exported as `LEGACY_ATOM_KINDS` /
+  `LEGACY_KNOWN_KINDS`; an already-released 0.7.2 consumer keeps its
+  own unknown-kind parse failure as the observed fallback.
+- **Canonical identity**: `compute_canonical_id` is byte-identical for
+  legacy atoms (golden vectors unchanged). New kinds participate via
+  their explicit fields; Map entry insertion order is identity-neutral,
+  Event timestamps stay excluded. Serializers retain `canonical_id` for
+  the new kinds on every wire, compute a missing id only on a validated
+  copy (callers are never mutated), and an explicitly mismatched claim
+  is preserved for `canonical_id_well_formed` — never silently
+  repaired. The digest truncation length is now the named test seam
+  `CANONICAL_ID_HEX_LENGTH` (value unchanged: 12).
+- **Registry collision protection**: `Registry.put` now raises
+  `CanonicalCollisionError` when the same canonical id arrives with a
+  DIFFERENT full canonical structural payload, preserving the first
+  record and its persisted bytes; identical payloads stay idempotent
+  and timestamp-only (provenance) differences are not collisions.
+- **Narrow malformed-input hardening** in the full-trace loaders:
+  duplicate mapping keys and nonfinite JSON tokens are rejected while
+  decoding (they silently destroy or corrupt information otherwise).
+  Valid legacy corpus parity is proven by the golden/corpus suites.
+- **Conformance runner**: `scripts/run_spec_conformance.py` gains an
+  explicit decoder for the self-describing `semantic-atoms.v1` suite
+  with correct parse-vs-validate dispatch, coverage/inventory pinning,
+  and fail-closed handling of unknown schemas, duplicate case ids,
+  count mismatches, unsupported formats, and unknown rules
+  (`--require-semantic-suite` for the consumer gate).
+- `SCHOLIA_VALIDATOR_VERSION` advances to `0.7.3` with the package;
+  `SCHOLIA_GRAMMAR_VERSION` (`0.7.0`) and `LEGACY_GRAMMAR_VERSION`
+  (`0.6.2`) are new exported constants.
+
 ## v0.7.2
 
 - Correct `constraint_respected` so noun phrases such as “Never a bare null”
