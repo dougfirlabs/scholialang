@@ -38,7 +38,8 @@
     "Modify only scholialang in this isolated execution worktree. Related repository semantics are pinned read-only inputs; never mutate sibling/shared checkouts.",
     "Preserve every historical fixture and ID. New semantic kinds must never grant execution authority. Task runtime and semantic state remain distinct. Mark exact additive contract decisions proposed for operator morning review, not already ratified.",
     "Create isolated test/build environments; never pip install into shared control-plane venv. Explicitly prove imported core/spec sources match accepted receipts; sibling-source discovery is not proof.",
-    "Final result must include positive and negative conformance tests and immutable evidence. Existing green baseline alone does not establish new feature acceptance."
+    "Final result must include positive and negative conformance tests and immutable evidence. Existing green baseline alone does not establish new feature acceptance.",
+    "Follow .ralph/contracts/semantic-contract-proposal.md and .ralph/contracts/spec-first-acceptance-plan.md. The latter defines spec-first producer acceptance versus later actual core consumer acceptance, not a waived parent gate. Preserve all historical 32-kind references/corpora; use a new current projection and phase-aware semantic fixtures. No fake implementation, missing required cases, skip/xfail, or source-discovery leakage."
   ],
   "stories": [
     {
@@ -88,5 +89,11 @@
     ],
     "enforcement": "PM manual accepted-commit and fixture-hash gate",
     "launch_ready": false
+  },
+  "source_pins": {
+    "legacy_core": "192a5176caddd3150caa08b8589314ae3ecc525f",
+    "legacy_spec": "9c530ed71d19b0c407503b367472a4f8e7b8e151",
+    "proposal_sha256": "a086e695a9bbc79b7d53a278e9e07266e80a3fb7c2ef34ec1c2437bdbe79d1d8",
+    "acceptance_plan_sha256": "201b823d43d3e4c5d33888bd239dc344ca18ed19cd815ec57b34fb1ce94dad1b"
   }
 }
