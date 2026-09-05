@@ -49,11 +49,19 @@ keeps its meaning byte-identically.
   is preserved for `canonical_id_well_formed` — never silently
   repaired. The digest truncation length is now the named test seam
   `CANONICAL_ID_HEX_LENGTH` (value unchanged: 12).
+  Machine-format round trips also preserve canonical ids on all legacy
+  target kinds, so mixed-catalog canonical references remain resolvable.
+  Missing target ids are computed without mutating the caller; supplied
+  bad claims remain visible to validation. Existing canonical hash bytes
+  and the frozen old artifact/profile are unchanged.
 - **Registry collision protection**: `Registry.put` now raises
   `CanonicalCollisionError` when the same canonical id arrives with a
   DIFFERENT full canonical structural payload, preserving the first
   record and its persisted bytes; identical payloads stay idempotent
   and timestamp-only (provenance) differences are not collisions.
+  Payload comparison uses exact canonical JSON, distinguishing valid
+  legacy numeric representations such as `-0.0`/`0.0` and `1`/`1.0`
+  even though Python equality considers them equal.
 - **Narrow malformed-input hardening** in the full-trace loaders:
   duplicate mapping keys and nonfinite JSON tokens are rejected while
   decoding (they silently destroy or corrupt information otherwise).

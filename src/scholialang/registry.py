@@ -411,7 +411,18 @@ class Registry:
                 self._cache = data
                 self._edges = edges
                 self._cache_loaded = True
-                if _payload_from_record(existing) != canonical_payload(atom):
+                # Equality must use the exact bytes consumed by the hasher.
+                # Python mapping equality conflates -0.0/0.0 and 1/1.0,
+                # although canonical JSON (and therefore identity) does not.
+                stored_json = json.dumps(
+                    _payload_from_record(existing), sort_keys=True,
+                    separators=(",", ":"),
+                )
+                incoming_json = json.dumps(
+                    canonical_payload(atom), sort_keys=True,
+                    separators=(",", ":"),
+                )
+                if stored_json != incoming_json:
                     raise CanonicalCollisionError(
                         atom.canonical_id,
                         str(existing.get("kind", "?")),

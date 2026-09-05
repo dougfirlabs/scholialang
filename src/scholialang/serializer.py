@@ -30,6 +30,7 @@ from scholialang.atoms import (
     SemanticShapeError,
     Step,
     atom_class_for_kind,
+    compute_canonical_id,
     normalize_semantic_atom,
     wire_name,
 )
@@ -55,8 +56,12 @@ def _atom_to_dict(atom: Atom) -> dict[str, Any]:
     out: dict[str, Any] = {"kind": atom.kind}
     if atom.id is not None:
         out["id"] = atom.id
-    if atom.kind in SEMANTIC_KINDS and atom.canonical_id is not None:
-        out["canonical_id"] = atom.canonical_id
+    canonical_id = atom.canonical_id
+    if canonical_id is None and atom.kind not in PSEUDO_ATOM_KINDS:
+        # Compute for the wire only; a caller-owned legacy atom is not stamped.
+        canonical_id = compute_canonical_id(atom)
+    if canonical_id is not None:
+        out["canonical_id"] = canonical_id
     out["content"] = atom.content
     out["operators"] = list(atom.operators)
     for field_name in KIND_SPECIFIC_FIELDS.get(atom.kind, ()):
@@ -218,6 +223,10 @@ def _atom_from_dict(payload: dict[str, Any]) -> Atom:
     else:
         atom = cls()
     atom.id = payload.get("id")
+    # Legacy kinds are legal canonical-reference targets of Map/Event/Task.
+    # Preserve explicit claims (including bad claims for validation) instead
+    # of silently losing their identity across machine-format round trips.
+    atom.canonical_id = payload.get("canonical_id")
     atom.content = str(payload.get("content", ""))
     atom.operators = list(payload.get("operators", []))
     for field_name in KIND_SPECIFIC_FIELDS.get(kind, ()):
@@ -232,6 +241,8 @@ def _atom_from_dict(payload: dict[str, Any]) -> Atom:
             else:
                 setattr(atom, field_name, payload[wire_key])
     atom.children = [_atom_from_dict(c) for c in payload.get("children", [])]
+    if atom.canonical_id is None and kind not in PSEUDO_ATOM_KINDS:
+        atom.canonical_id = compute_canonical_id(atom)
     return atom
 
 
