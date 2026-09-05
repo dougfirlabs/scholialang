@@ -93,7 +93,8 @@
   "source_pins": {
     "legacy_core": "192a5176caddd3150caa08b8589314ae3ecc525f",
     "legacy_spec": "9c530ed71d19b0c407503b367472a4f8e7b8e151",
-    "proposal_sha256": "a086e695a9bbc79b7d53a278e9e07266e80a3fb7c2ef34ec1c2437bdbe79d1d8",
+    "proposal_private_audit_sha256": "a086e695a9bbc79b7d53a278e9e07266e80a3fb7c2ef34ec1c2437bdbe79d1d8",
+    "proposal_repo_local_sha256": "2d3dd43979edad1b795e0e0aa02c3e9466255d11cfc0f55ebd1a68942d91878d",
     "acceptance_plan_sha256": "201b823d43d3e4c5d33888bd239dc344ca18ed19cd815ec57b34fb1ce94dad1b"
   }
 }
