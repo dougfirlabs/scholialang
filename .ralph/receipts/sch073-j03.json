@@ -1,0 +1,51 @@
+{
+  "schema_version": "sch073.producer_receipt.v1",
+  "job_id": "sch073-j03",
+  "repository": "scholialang-spec",
+  "run_id": "a763e6b584344c2895b3355702bdeb3d",
+  "source_sha": "4e19eae3e55566dac450c0dbf7bcba03d12afc50",
+  "original_source_sha": "70be30d967cab3ab1d1bea8982f54bbca09baa00",
+  "cumulative_integration_sha": "40a100125ba937a6561c30ef5eb58c11ed4cbec5",
+  "verdict": "pass_with_caveats",
+  "scope": "normative_producer_contract_pass",
+  "runtime_acceptance": "pending_j04",
+  "input_root": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j03-adjudication/4e19eae3e55566dac450c0dbf7bcba03d12afc50/clones/scholialang-spec",
+  "hashes": {
+    "reference/v0.7/atoms_index.yaml": "bc1100a06f27c9c448ccd18b252edb3ebc2b06390f84b5cf36fa71f8fee4ee50",
+    "reference/v0.7/notation-reference.md": "988384e04db37587b03de4ac2ba6b3da3d1ffe3cbd159eeef4d9eabbf2dec31e",
+    "docs/scholia/SCHOLIA_v0.7_SPEC.md": "bfa6fb83ec3dcf13480a68991608f5377e4f1bcdb2e8d93522a3d06fb99c78f1",
+    "conformance/v0.7/semantic_atoms.json": "8ef6db811290522e6234fbc9d1b748d567aaa3b78f86c536527c98e77a8f3a6e",
+    "conformance/v0.7/coverage-inventory.json": "eed5d0c6d4ed982a8115e85bc6354b9c37695468f403dd4321bff0612a82366d"
+  },
+  "tests": {
+    "spec_passed": 82,
+    "independent_producer_passed": 64,
+    "required_skipped": 0,
+    "old_core_passed": 517,
+    "old_optional_production_corpus_skipped": 1,
+    "unchanged_historical_files": 58,
+    "generators_passed": 4
+  },
+  "corpus": {
+    "static_cases": 204,
+    "positive": 36,
+    "negative": 168,
+    "original_ids_preserved": 106,
+    "structured_runtime_obligations": 11,
+    "canonical_reference_cases": 96,
+    "structural_mutation_cases": 22,
+    "adversarial_families": 38
+  },
+  "independent_verdict": {
+    "path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j03-adjudication/4e19eae3e55566dac450c0dbf7bcba03d12afc50/INDEPENDENT-VERDICT.md",
+    "sha256": "d590a1667064f158cf2bc31126386350d9e7e009a62e6550121a14471355efa4"
+  },
+  "caveats": [
+    "Producer only. Actual new core must execute the exact 204 cases and all 11 runtime obligations; the 350-node private probe harness is partial relative to the 96 canonical-target and complete structural mutation matrices.",
+    "Original rejected candidate/POST/trace evidence preserved; existing diagnostics are report-only, not product gate waivers.",
+    "Recorded semantic proposal remains subject to morning review."
+  ],
+  "consumer": "sch073-j04 core implementation",
+  "protected_merge_authorized": false,
+  "release_authorized": false
+}

@@ -1,16 +1,16 @@
 {
   "kind": "prd",
   "schema_version": 1,
-  "status": "draft",
+  "status": "approved",
   "group_id": "scholialang-073-convergence-20260904",
   "run_policy": "gated_stack",
   "approval": {
-    "approved": false,
-    "execution_authorized": false,
+    "approved": true,
+    "execution_authorized": true,
     "merge_authorized": false,
     "release_authorized": false
   },
-  "authority": "Overnight implementation authorized by operator in the program; this specific draft remains receipt-gated. Activate only when PM records accepted dependencies. No shared branch merge/release/deployment or other repository mutation.",
+  "authority": "Darren authorized overnight implementation and bounded corrections, holding all final merges for morning. PM accepted j03 normative producer at 4e19eae3e55566dac450c0dbf7bcba03d12afc50 with immutable receipt. This isolated core job is now execution-authorized. No protected merge, release, deployment, shared environment installation, sibling-repo mutation or Cloud work.",
   "evidence_contract": "Acceptance binds to full source SHA(s), pinned dependency/spec revisions, clean isolated environment, exact commands and exit codes, required scenario counts with zero skips, artifact hashes, independent verdict, preserved behavior matrix, and rollback notes. Existing green CI does not override a reproducible contract violation.",
   "id": "sch073-03-semantic-contract-scholialang",
   "title": "Implement proposed additive Map/Event/Task core contract",
@@ -40,7 +40,8 @@
     "Create isolated test/build environments; never pip install into shared control-plane venv. Explicitly prove imported core/spec sources match accepted receipts; sibling-source discovery is not proof.",
     "Final result must include positive and negative conformance tests and immutable evidence. Existing green baseline alone does not establish new feature acceptance.",
     "Follow .ralph/contracts/semantic-contract-proposal.md and .ralph/contracts/spec-first-acceptance-plan.md. The latter defines spec-first producer acceptance versus later actual core consumer acceptance, not a waived parent gate. Preserve all historical 32-kind references/corpora; use a new current projection and phase-aware semantic fixtures. No fake implementation, missing required cases, skip/xfail, or source-discovery leakage.",
-    "Write an agent-authored POST with canonical headings exactly: ## What worked, ## What didn't, ## Per-story status, ## Next steps. Record actual observed UTC timestamps and measured test counts; never estimate future completion times or claim tests not collected. Distinguish requested/served model attestation from incidental commit co-author labels. Include exact candidate SHA, source/fixture hashes and unresolved evidence caveats; independent PM acceptance is separate."
+    "Write an agent-authored POST with canonical headings exactly: ## What worked, ## What didn't, ## Per-story status, ## Next steps. Record actual observed UTC timestamps and measured test counts; never estimate future completion times or claim tests not collected. Distinguish requested/served model attestation from incidental commit co-author labels. Include exact candidate SHA, source/fixture hashes and unresolved evidence caveats; independent PM acceptance is separate.",
+    "Read .ralph/receipts/sch073-j03.json and .ralph/contracts/core-launch-evidence.md. The exact accepted producer has 204 cases, 11 structured runtime obligations, 96 canonical-reference cases and 22 structural field mutations. Execute every required case with concrete node-bound receipts; the privately prepared 350-scenario harness is explicitly partial, not a replacement for missing obligation cases. Keep dual legacy/current parity arms separate and build hashed unreleased artifacts for downstream isolated wheelhouse use."
   ],
   "stories": [
     {
@@ -89,13 +90,25 @@
       "sch073-j03"
     ],
     "enforcement": "PM manual accepted-commit and fixture-hash gate",
-    "launch_ready": false
+    "launch_ready": true,
+    "accepted_receipts": [
+      ".ralph/receipts/sch073-j03.json"
+    ]
   },
   "source_pins": {
     "legacy_core": "192a5176caddd3150caa08b8589314ae3ecc525f",
     "legacy_spec": "9c530ed71d19b0c407503b367472a4f8e7b8e151",
     "proposal_private_audit_sha256": "a086e695a9bbc79b7d53a278e9e07266e80a3fb7c2ef34ec1c2437bdbe79d1d8",
     "proposal_repo_local_sha256": "2d3dd43979edad1b795e0e0aa02c3e9466255d11cfc0f55ebd1a68942d91878d",
-    "acceptance_plan_sha256": "201b823d43d3e4c5d33888bd239dc344ca18ed19cd815ec57b34fb1ce94dad1b"
+    "acceptance_plan_sha256": "201b823d43d3e4c5d33888bd239dc344ca18ed19cd815ec57b34fb1ce94dad1b",
+    "accepted_spec": "4e19eae3e55566dac450c0dbf7bcba03d12afc50",
+    "semantic_corpus_sha256": "8ef6db811290522e6234fbc9d1b748d567aaa3b78f86c536527c98e77a8f3a6e",
+    "coverage_inventory_sha256": "eed5d0c6d4ed982a8115e85bc6354b9c37695468f403dd4321bff0612a82366d"
+  },
+  "independent_probe_inputs": {
+    "read_only_root": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-runtime-probes",
+    "inventory_sha256": "2a0dda78d9167100360719015fe54ba86749c4a435e7c4a33e2329629746a4a8",
+    "status": "preparation_only_350_collected_zero_new_semantic_executions",
+    "implementation_owns_full_obligations": true
   }
 }
