@@ -1,0 +1,212 @@
+{
+  "created_at": "2026-09-06T00:25:34.109487+00:00",
+  "input": {
+    "artifacts": [
+      "wheel sha256 bbe08813bb0431824fa82db6b086ff2aafca5f6024e0b377dcfa7d37c25c1831",
+      "sdist sha256 457fe675175adf2c3166eeb55ffe86f8e9e0fb72b5acea54615ac3401c2557b2",
+      "fresh verifier attempt astra-resume-20260905",
+      "formal adjudicator run/process/post/scholia/chart facets pass"
+    ],
+    "base_branch": "feat/sch073-core-control-20260905",
+    "base_hash": "4fb258cea6532a0018f181c2c2ef795b9a3a1672",
+    "candidate_branch": "feat/sch073-j04-pm-correction-20260905",
+    "candidate_hash": "9a86a4645c49074c4a415ade01093bff0e2ca70c",
+    "forbidden_paths": [
+      ".venv",
+      "venv",
+      "*.sqlite",
+      "*.db",
+      "*.pem",
+      "*.key"
+    ],
+    "issue_links": [],
+    "prd_id": "sch073-03-semantic-contract-scholialang",
+    "run_id": "7269ab8ec4a44e90bf1809febc5212be",
+    "schema_version": "opentalon.merge_review_input.v1",
+    "tests": [
+      {
+        "command": "1365 passed, 1 optional production corpus skip",
+        "name": "independent source full suite",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/source-full-core.json",
+        "status": "passed"
+      },
+      {
+        "command": "1365 passed, 1 optional production corpus skip",
+        "name": "independent wheel full suite",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/wheel-full-core.json",
+        "status": "passed"
+      },
+      {
+        "command": "1365 passed, 1 optional production corpus skip",
+        "name": "independent sdist full suite",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/sdist-full-core.json",
+        "status": "passed"
+      },
+      {
+        "command": "241 passed",
+        "name": "source exact/current35",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/source-exact-contract.json",
+        "status": "passed"
+      },
+      {
+        "command": "241 passed",
+        "name": "wheel exact/current35",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/wheel-exact-contract.json",
+        "status": "passed"
+      },
+      {
+        "command": "241 passed",
+        "name": "sdist exact/current35",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/sdist-exact-contract.json",
+        "status": "passed"
+      },
+      {
+        "command": "350 passed",
+        "name": "source runtime350",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/source-independent350.json",
+        "status": "passed"
+      },
+      {
+        "command": "350 passed",
+        "name": "wheel runtime350",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/wheel-independent350.json",
+        "status": "passed"
+      },
+      {
+        "command": "350 passed",
+        "name": "sdist runtime350",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/sdist-independent350.json",
+        "status": "passed"
+      },
+      {
+        "command": "472 passed",
+        "name": "source matrix472",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/source-complete472.json",
+        "status": "passed"
+      },
+      {
+        "command": "472 passed",
+        "name": "wheel matrix472",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/wheel-complete472.json",
+        "status": "passed"
+      },
+      {
+        "command": "472 passed",
+        "name": "sdist matrix472",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/sdist-complete472.json",
+        "status": "passed"
+      },
+      {
+        "command": "6 passed per source/wheel/sdist artifact arm",
+        "name": "numeric collision controls",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/source-numeric-collision.json",
+        "status": "passed"
+      }
+    ]
+  },
+  "markdown_path": ".opentalon/state/run-plan-adjudications/7269ab8ec4a44e90bf1809febc5212be/merge-review.md",
+  "report_path": ".opentalon/state/run-plan-adjudications/7269ab8ec4a44e90bf1809febc5212be/merge-review.json",
+  "schema_version": "opentalon.merge_review_report.v1",
+  "verdict": {
+    "caveats": [
+      "One explicitly optional operator-supplied production corpus replay remains skipped because SCHOLIA_CORPUS_DIR was not supplied.",
+      "Original run POST claimed the pre-correction implementation SHA; the correction candidate and independent evidence are recorded separately and the original bytes remain immutable.",
+      "Scholia trace diagnostics remain report-only; trace visibility/flat-lint discrepancies do not waive product gates.",
+      "No protected merge, release, deployment, or Cloud work is authorized by this report."
+    ],
+    "follow_ups": [
+      "Promote the accepted core wheel/sdist hashes into receipt-gated MCP j05.",
+      "Keep final multi-repo stage merge as Darren's morning HITL gate."
+    ],
+    "markdown_path": ".opentalon/state/run-plan-adjudications/7269ab8ec4a44e90bf1809febc5212be/merge-review.md",
+    "pass_compatible": true,
+    "reasons": [
+      "Independent source, wheel, and sdist arms pass the full required test matrix and corrected j04 defects.",
+      "Remote candidate SHA parity and formal run/process/POST/Scholia/chart facets pass.",
+      "Accepted j03 spec pin and legacy preservation remain bound."
+    ],
+    "report_path": ".opentalon/state/run-plan-adjudications/7269ab8ec4a44e90bf1809febc5212be/merge-review.json",
+    "schema_version": "opentalon.merge_review_verdict.v1",
+    "test_evidence": [
+      {
+        "command": "1365 passed, 1 optional production corpus skip",
+        "name": "independent source full suite",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/source-full-core.json",
+        "status": "passed"
+      },
+      {
+        "command": "1365 passed, 1 optional production corpus skip",
+        "name": "independent wheel full suite",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/wheel-full-core.json",
+        "status": "passed"
+      },
+      {
+        "command": "1365 passed, 1 optional production corpus skip",
+        "name": "independent sdist full suite",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/sdist-full-core.json",
+        "status": "passed"
+      },
+      {
+        "command": "241 passed",
+        "name": "source exact/current35",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/source-exact-contract.json",
+        "status": "passed"
+      },
+      {
+        "command": "241 passed",
+        "name": "wheel exact/current35",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/wheel-exact-contract.json",
+        "status": "passed"
+      },
+      {
+        "command": "241 passed",
+        "name": "sdist exact/current35",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/sdist-exact-contract.json",
+        "status": "passed"
+      },
+      {
+        "command": "350 passed",
+        "name": "source runtime350",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/source-independent350.json",
+        "status": "passed"
+      },
+      {
+        "command": "350 passed",
+        "name": "wheel runtime350",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/wheel-independent350.json",
+        "status": "passed"
+      },
+      {
+        "command": "350 passed",
+        "name": "sdist runtime350",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/sdist-independent350.json",
+        "status": "passed"
+      },
+      {
+        "command": "472 passed",
+        "name": "source matrix472",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/source-complete472.json",
+        "status": "passed"
+      },
+      {
+        "command": "472 passed",
+        "name": "wheel matrix472",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/wheel-complete472.json",
+        "status": "passed"
+      },
+      {
+        "command": "472 passed",
+        "name": "sdist matrix472",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/sdist-complete472.json",
+        "status": "passed"
+      },
+      {
+        "command": "6 passed per source/wheel/sdist artifact arm",
+        "name": "numeric collision controls",
+        "report_path": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j04-adjudication/9a86a4645c49074c4a415ade01093bff0e2ca70c-astra-resume-20260905/source-numeric-collision.json",
+        "status": "passed"
+      }
+    ],
+    "verdict": "pass_with_caveats"
+  }
+}
