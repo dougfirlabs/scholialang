@@ -1,17 +1,26 @@
-"""Scholia — structured reasoning notation (v0.6).
+"""Scholia — structured reasoning notation (grammar 0.7.0 candidate).
 
 See ``docs/notation/NOTATION_REFERENCE.md`` for the canonical spec.
 
-v0.6 adds content-addressable ``canonical_id``s (a SHA-256 over each
+The 0.7.3 candidate adds the three PROPOSED additive semantic kinds —
+``Map`` (typed mapping value), ``Event`` (recorded occurrence), and
+``Task`` (declarative work obligation) — growing the closed catalog
+from 32 to 35 under the distinct grammar revision 0.7.0 (the package
+and grammar version on separate axes). Every valid legacy trace keeps
+its meaning: the 32-kind projection is preserved as
+``LEGACY_ATOM_KINDS`` and ``validate(..., profile="0.6.2")`` rejects
+the new kinds with a structured unsupported-version diagnostic instead
+of silently rewriting them. Constructing, parsing, validating, hashing,
+or serializing a semantic atom NEVER executes work or grants authority.
+
+v0.6 added content-addressable ``canonical_id``s (a SHA-256 over each
 atom's structural identity), a DAG-backed :mod:`~scholialang.registry`,
 and the lazy canonical :mod:`~scholialang.prelude` — while staying
-back-compatible with v0.5 traces. The atom catalog is unchanged (32
-kinds); only the base ``Atom`` grows a ``canonical_id`` and the validator
-grows the ``canonical_id_well_formed`` rule.
+back-compatible with v0.5 traces.
 
 The package contains the language-level modules:
 
-* :mod:`scholialang.atoms` — 32 atom dataclasses + 11 operators +
+* :mod:`scholialang.atoms` — 35 atom dataclasses + 11 operators +
   6 primitive type aliases + the v0.6 ``compute_canonical_id`` hasher.
 * :mod:`scholialang.parser` — XML-ish text → AST (stamps canonical_ids).
 * :mod:`scholialang.serializer` — AST ↔ JSON ↔ YAML roundtrip.
@@ -28,16 +37,26 @@ The package contains the language-level modules:
 """
 from __future__ import annotations
 
-__version__ = "0.7.2"
+__version__ = "0.7.3"
 
 from scholialang.atoms import (
     ATOM_KINDS,
     CANONICAL_OPERATORS,
     CRITICALITY_RANK,
+    GRAMMAR_PROFILES,
     KNOWN_KINDS,
+    LEGACY_ATOM_KINDS,
+    LEGACY_GRAMMAR_VERSION,
+    LEGACY_KNOWN_KINDS,
+    MAP_VALUE_TYPES,
     OPERATORS,
     PRIMITIVES,
+    SCHOLIA_GRAMMAR_VERSION,
     SCHOLIA_VALIDATOR_VERSION,
+    SEMANTIC_ATOM_KINDS,
+    SEMANTIC_KINDS,
+    TASK_EVIDENCE_KINDS,
+    TASK_STATUSES,
     Action,
     Alternative,
     Atom,
@@ -52,6 +71,7 @@ from scholialang.atoms import (
     Deciding,
     Edge,
     Effect,
+    Event,
     Evidence,
     EventRef,
     Finding,
@@ -60,6 +80,7 @@ from scholialang.atoms import (
     Hypothesis,
     Implication,
     Loop,
+    Map,
     Meta,
     Observation,
     Operator,
@@ -70,13 +91,16 @@ from scholialang.atoms import (
     Reference,
     Retract,
     Review,
+    SemanticShapeError,
     Step,
     Storing,
+    Task,
     Thinking,
     Uncertainty,
     atom_to_xml,
     compute_canonical_id,
     is_valid_fingerprint,
+    normalize_semantic_atom,
 )
 from scholialang.parser import parse, parse_atom
 from scholialang.prelude import (
@@ -84,10 +108,11 @@ from scholialang.prelude import (
     EXPERIMENTAL_PRELUDE_MODES,
     build_canonical_prelude,
 )
-from scholialang.registry import Registry
+from scholialang.registry import CanonicalCollisionError, Registry
 from scholialang.validator import (
     RULE_CANONICAL_ID_WELL_FORMED,
     RULE_FINGERPRINT_WELL_FORMED,
+    RULE_GRAMMAR_PROFILE_UNSUPPORTED,
     RULE_NAMES,
     ValidationError,
     ValidationResult,
@@ -101,10 +126,20 @@ __all__ = [
     "ATOM_KINDS",
     "CANONICAL_OPERATORS",
     "CRITICALITY_RANK",
+    "GRAMMAR_PROFILES",
     "KNOWN_KINDS",
+    "LEGACY_ATOM_KINDS",
+    "LEGACY_GRAMMAR_VERSION",
+    "LEGACY_KNOWN_KINDS",
+    "MAP_VALUE_TYPES",
     "OPERATORS",
     "PRIMITIVES",
+    "SCHOLIA_GRAMMAR_VERSION",
     "SCHOLIA_VALIDATOR_VERSION",
+    "SEMANTIC_ATOM_KINDS",
+    "SEMANTIC_KINDS",
+    "TASK_EVIDENCE_KINDS",
+    "TASK_STATUSES",
     "Action",
     "Alternative",
     "Atom",
@@ -119,6 +154,7 @@ __all__ = [
     "Deciding",
     "Edge",
     "Effect",
+    "Event",
     "Evidence",
     "EventRef",
     "Finding",
@@ -127,6 +163,7 @@ __all__ = [
     "Hypothesis",
     "Implication",
     "Loop",
+    "Map",
     "Meta",
     "Observation",
     "Operator",
@@ -137,13 +174,16 @@ __all__ = [
     "Reference",
     "Retract",
     "Review",
+    "SemanticShapeError",
     "Step",
     "Storing",
+    "Task",
     "Thinking",
     "Uncertainty",
     "atom_to_xml",
     "compute_canonical_id",
     "is_valid_fingerprint",
+    "normalize_semantic_atom",
     # parser
     "parse",
     "parse_atom",
@@ -155,9 +195,11 @@ __all__ = [
     "ValidationResult",
     "RULE_CANONICAL_ID_WELL_FORMED",
     "RULE_FINGERPRINT_WELL_FORMED",
+    "RULE_GRAMMAR_PROFILE_UNSUPPORTED",
     "RULE_NAMES",
     # v0.6 registry + prelude
     "Registry",
+    "CanonicalCollisionError",
     "build_canonical_prelude",
     "CORE_PRELUDE_MODES",
     "EXPERIMENTAL_PRELUDE_MODES",

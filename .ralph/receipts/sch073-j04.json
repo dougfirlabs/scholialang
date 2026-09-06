@@ -1,0 +1,134 @@
+{
+  "schema_version": "sch073.consumer_receipt.v1",
+  "job_id": "sch073-j04",
+  "prd_id": "sch073-03-semantic-contract-scholialang",
+  "repository": "scholialang",
+  "run_id": "7269ab8ec4a44e90bf1809febc5212be",
+  "verdict": "candidate_pass",
+  "scope": "core_consumer_execution_pass; paired_candidate_receipt_not_merge_acceptance",
+  "candidate_sha": "51cb5f96ade7a514ede8ffb6c7d29ce955008a77",
+  "accepted_spec_sha": "4e19eae3e55566dac450c0dbf7bcba03d12afc50",
+  "spec_pin_file": "scholialang-spec-ref.txt",
+  "spec_input_root": "/home/horselover/projects/backups/sch073-preflight-20260904.VKrsy3/j03-adjudication/4e19eae3e55566dac450c0dbf7bcba03d12afc50/clones/scholialang-spec",
+  "spec_input_head_verified": true,
+  "source_pins_matched": {
+    "semantic_corpus_sha256": "8ef6db811290522e6234fbc9d1b748d567aaa3b78f86c536527c98e77a8f3a6e",
+    "coverage_inventory_sha256": "eed5d0c6d4ed982a8115e85bc6354b9c37695468f403dd4321bff0612a82366d",
+    "atoms_index_sha256": "bc1100a06f27c9c448ccd18b252edb3ebc2b06390f84b5cf36fa71f8fee4ee50",
+    "legacy_core_archive_sha256": "a2e3b34a7fe208748312dca5af09089765f6681da9c95f1a69179573aa84d5c5",
+    "legacy_core_sha": "192a5176caddd3150caa08b8589314ae3ecc525f"
+  },
+  "artifacts": {
+    "wheel": {
+      "file": "scholialang-0.7.3-py3-none-any.whl",
+      "sha256": "18a21e2db439485ffa63a8160c590dfa7e5388329b547555422fd8ad502b4bbf"
+    },
+    "sdist": {
+      "file": "scholialang-0.7.3.tar.gz",
+      "sha256": "fd913575acf5bfcad49e73c21bc4a346418271a394ee78bc2019d15b3fb49afc"
+    },
+    "wheelhouse_copy": "/home/horselover/projects/tmp/sch073-j04-wheelhouse/"
+  },
+  "environments": {
+    "source": {
+      "python": "3.12.3",
+      "venv": "/tmp/sch073-j04/envs/dev (pytest 9.0.3, pytest-timeout 2.4.0, PyYAML 6.0.3)",
+      "import_origin": "<worktree>/src/scholialang/__init__.py",
+      "pythonpath": "src"
+    },
+    "wheel_installed": {
+      "venv": "/tmp/sch073-j04/envs/wheel",
+      "import_origin": "/tmp/sch073-j04/envs/wheel/lib/python3.12/site-packages/scholialang/__init__.py",
+      "run_root": "/tmp/sch073-j04/testbed (outside source roots, PYTHONPATH unset)"
+    },
+    "sdist_installed": {
+      "venv": "/tmp/sch073-j04/envs/sdist",
+      "import_origin": "/tmp/sch073-j04/envs/sdist/lib/python3.12/site-packages/scholialang/__init__.py",
+      "run_root": "/tmp/sch073-j04/testbed (outside source roots, PYTHONPATH unset)"
+    },
+    "old_artifact": {
+      "venv": "/tmp/sch073-j04/envs/old",
+      "installed_version": "0.7.2",
+      "built_from": "git archive 192a5176caddd3150caa08b8589314ae3ecc525f (sha256 a2e3b34a7fe208748312dca5af09089765f6681da9c95f1a69179573aa84d5c5)",
+      "import_origin": "/tmp/sch073-j04/envs/old/lib/python3.12/site-packages/scholialang/__init__.py"
+    }
+  },
+  "commands": [
+    {
+      "arm": "source",
+      "command": "SCHOLIALANG_SPEC_DIR=<accepted-spec-clone> SCHOLIALANG_REQUIRE_FINGERPRINT_FIXTURES=1 SCHOLIALANG_REQUIRE_SEMANTIC_FIXTURES=1 SCHOLIALANG_OLD_ARTIFACT_PYTHON=<old-env>/bin/python SCHOLIALANG_REQUIRE_OLD_ARTIFACT=1 PYTHONPATH=src python -m pytest tests -q",
+      "exit_code": 0,
+      "result": "935 passed, 1 skipped (optional external production corpus only)",
+      "started_utc": "2026-09-05T10:57:00Z",
+      "log": ".ralph/evidence/sch073-j04/source-suite.log"
+    },
+    {
+      "arm": "wheel-installed",
+      "command": "same suite from /tmp/sch073-j04/testbed with SCHOLIALANG_EXPECT_IMPORT_PREFIX=<wheel-env>, PYTHONPATH unset",
+      "exit_code": 0,
+      "result": "935 passed, 1 skipped",
+      "log": ".ralph/evidence/sch073-j04/wheel-suite.log"
+    },
+    {
+      "arm": "sdist-installed",
+      "command": "same suite from /tmp/sch073-j04/testbed with SCHOLIALANG_EXPECT_IMPORT_PREFIX=<sdist-env>, PYTHONPATH unset",
+      "exit_code": 0,
+      "result": "935 passed, 1 skipped",
+      "log": ".ralph/evidence/sch073-j04/sdist-suite.log"
+    },
+    {
+      "arm": "conformance-runner (source + wheel + sdist)",
+      "command": "python scripts/run_spec_conformance.py <accepted-spec-clone> --require-semantic-suite",
+      "exit_code": 0,
+      "result": "12 examples + 19 rule fixtures + 204 semantic-suite cases + 6 fingerprint fixtures, per arm",
+      "log": ".ralph/evidence/sch073-j04/conformance.log"
+    },
+    {
+      "arm": "build",
+      "command": "python -m build --outdir /tmp/sch073-j04/dist (isolated build env)",
+      "exit_code": 0,
+      "result": "wheel + sdist built; hashes above"
+    }
+  ],
+  "tests": {
+    "collected": 936,
+    "passed": 935,
+    "skipped": 1,
+    "skip_reason": "tests/integration/scholia/test_corpus_replay.py::test_external_corpus_replay_under_v031 — operator-supplied production sweep absent; documented optional facet, not manufactured from synthetic fixtures",
+    "required_semantic_skips": 0,
+    "xfails": 0,
+    "new_test_nodes": 418,
+    "semantic_corpus_cases_executed": 204,
+    "corpus_positive": 36,
+    "corpus_negative": 168,
+    "runtime_obligations_bound": 11,
+    "canonical_reference_cases": 96,
+    "structural_mutation_cases": 22,
+    "obligation_node_map": {
+      "v07-runtime-no-io": "test_v07_semantic_contract.py::test_obligation_no_io[<case>] (15)",
+      "v07-runtime-roundtrip-no-caller-mutation": "test_obligation_roundtrip_no_caller_mutation[<case>] (24)",
+      "v07-runtime-forced-canonical-collision": "test_forced_canonical_collision_does_not_overwrite[<case>] (3)",
+      "v07-runtime-identical-payload-registry": "test_obligation_identical_payload_registry[<case>] (3)",
+      "v07-runtime-provenance-registry": "test_obligation_provenance_registry[<case>] (2)",
+      "v07-runtime-in-memory-map-key-and-object-shapes": "test_obligation_in_memory_shapes[<case>] (16)",
+      "v07-runtime-canonical-reference-resolution": "test_obligation_canonical_reference[<case>] (96)",
+      "v07-runtime-new-field-canonical-identity": "test_obligation_new_field_canonical_identity[<case>] (22)",
+      "v07-runtime-opaque-correlators": "test_obligation_opaque_correlators[<case>] (5)",
+      "v07-runtime-legacy-artifact-probe": "test_obligation_legacy_artifact_probe[<case>] (6)",
+      "v07-runtime-packaging-parity": "test_obligation_packaging_parity — one node executed per environment: source, wheel-installed, sdist-installed",
+      "cross_check": "test_runtime_obligation_case_ids_are_fully_bound asserts the bound case-id sets equal the suite's declared required_case_ids"
+    }
+  },
+  "parity_arms": {
+    "legacy": "517-pass/1-optional-skip baseline reproduced pre-change and preserved post-change; golden canonical ids byte-identical; frozen v0.3/v0.3.1 corpora validate; legacy 32-kind projection frozen as LEGACY_ATOM_KINDS",
+    "current": "35-kind exported dataclass/field/alias parity against reference/v0.7/atoms_index.yaml incl. the three documented legacy field corrections (Observation.fingerprint, Uncertainty.on, Confidence.on)",
+    "old_consumer": "real installed 0.7.2 wheel parses full legacy corpus clean and fails on Map/Event/Task with its own unknown-kind ScholiaParseError naming the kind; the new library's profile=0.6.2 structured grammar_profile_unsupported diagnostic is a distinct arm; no silent rewrite anywhere"
+  },
+  "caveats": [
+    "Semantic policy remains the recorded candidate proposal pending operator morning review; this is a paired candidate receipt binding candidate core SHA to the accepted j03 spec SHA, not merge/release acceptance.",
+    "The optional external production-corpus replay remains not executed (no operator-supplied sweep); all required canonical corpora ran with zero skips.",
+    "No tags, uploads, releases, protected merges, or shared-environment installs were performed; artifacts retained locally for the downstream isolated wheelhouse."
+  ],
+  "protected_merge_authorized": false,
+  "release_authorized": false
+}

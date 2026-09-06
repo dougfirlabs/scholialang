@@ -21,7 +21,7 @@ import scholialang
 from scholialang.atoms import SCHOLIA_VALIDATOR_VERSION
 
 
-EXPECTED_VERSION = "0.7.2"
+EXPECTED_VERSION = "0.7.3"
 ROOT = Path(__file__).resolve().parents[3]
 
 

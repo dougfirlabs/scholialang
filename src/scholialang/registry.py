@@ -47,7 +47,65 @@ from scholialang.verification_dag import (
     ProofNodeType,
     VerificationDag,
 )
-from scholialang.atoms import Atom
+from scholialang.atoms import (
+    _EXTERNAL_CODE_FIELDS,
+    _PROVENANCE_FIELDS,
+    Atom,
+    canonical_payload,
+)
+
+
+class CanonicalCollisionError(ValueError):
+    """Two DIFFERENT structural payloads claimed one canonical_id.
+
+    Raised by :meth:`Registry.put` when a new atom's canonical_id equals
+    an existing record's key but the full canonical structural payloads
+    differ — the truncated-hash collision case. The registry refuses to
+    overwrite or merge: the first record, indexes, and persisted bytes
+    stay intact. (Identical payloads sharing a canonical_id are ordinary
+    idempotent re-puts, not collisions; Event same-trace occurrence-pair
+    duplicate rules live in the validator, not here.)
+    """
+
+    def __init__(
+        self,
+        canonical_id: str,
+        existing_kind: str,
+        incoming_kind: str,
+    ) -> None:
+        self.canonical_id = canonical_id
+        self.existing_kind = existing_kind
+        self.incoming_kind = incoming_kind
+        super().__init__(
+            f"canonical collision on {canonical_id!r}: the stored "
+            f"<{existing_kind}> record and the incoming <{incoming_kind}> "
+            "atom have different full canonical structural payloads under "
+            "the same truncated digest. Refusing to overwrite or merge — "
+            "the first record is preserved unchanged."
+        )
+
+
+def _payload_from_record(record: dict[str, Any]) -> dict[str, Any]:
+    """Rebuild the canonical structural payload from a stored record.
+
+    Mirrors :func:`scholialang.atoms.canonical_payload`: provenance and
+    external-code fields are excluded from ``attrs`` so a timestamp-only
+    difference (pure provenance) never reads as a structural collision.
+    """
+    attrs: dict[str, Any] = {}
+    for name, value in (record.get("attrs") or {}).items():
+        if name in _PROVENANCE_FIELDS or name in _EXTERNAL_CODE_FIELDS:
+            continue
+        if value is None:
+            continue
+        if isinstance(value, list) and not value:
+            continue
+        attrs[name] = value
+    return {
+        "kind": record.get("kind", ""),
+        "content": str(record.get("content", "") or "").strip(),
+        "attrs": attrs,
+    }
 
 
 _DEFAULT_REGISTRY_PATH = Path.home() / ".scholia" / "registry.verification_dag.json"
@@ -323,13 +381,20 @@ class Registry:
         """Append ``atom`` under its canonical_id. Idempotent.
 
         Returns ``True`` if newly inserted, ``False`` if the canonical_id
-        was already present. Edges are derived from ``REFER:sha256:<B>`` /
-        ``IMPLIES:sha256:<B>`` operators in the body, de-duplicated by
-        ``(premise_id, conclusion_id, operator)``.
+        was already present with the SAME full canonical structural
+        payload (an idempotent re-put — equal payloads may share
+        identity across distinct local references). Edges are derived
+        from ``REFER:sha256:<B>`` / ``IMPLIES:sha256:<B>`` operators in
+        the body, de-duplicated by ``(premise_id, conclusion_id,
+        operator)``.
 
         Raises ``ValueError`` if ``atom.canonical_id`` is not set — parse
         through :func:`scholialang.parser.parse` or call
-        :func:`scholialang.atoms.compute_canonical_id` first.
+        :func:`scholialang.atoms.compute_canonical_id` first. Raises
+        :class:`CanonicalCollisionError` when the canonical_id is present
+        but the stored structural payload DIFFERS — a contradictory
+        overwrite is refused and the first record, indexes, and persisted
+        bytes are left intact.
         """
         if atom.canonical_id is None:
             raise ValueError(
@@ -342,9 +407,27 @@ class Registry:
             # don't lose each other's writes.
             data, edges = self._read_disk()
             if atom.canonical_id in data:
+                existing = data[atom.canonical_id]
                 self._cache = data
                 self._edges = edges
                 self._cache_loaded = True
+                # Equality must use the exact bytes consumed by the hasher.
+                # Python mapping equality conflates -0.0/0.0 and 1/1.0,
+                # although canonical JSON (and therefore identity) does not.
+                stored_json = json.dumps(
+                    _payload_from_record(existing), sort_keys=True,
+                    separators=(",", ":"),
+                )
+                incoming_json = json.dumps(
+                    canonical_payload(atom), sort_keys=True,
+                    separators=(",", ":"),
+                )
+                if stored_json != incoming_json:
+                    raise CanonicalCollisionError(
+                        atom.canonical_id,
+                        str(existing.get("kind", "?")),
+                        atom.kind,
+                    )
                 return False
             data[atom.canonical_id] = _atom_to_record(atom, sidecar=sidecar)
 
