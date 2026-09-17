@@ -7,7 +7,7 @@ on:
     inputs:
       version:
         description: >-
-          Version being published (e.g. 0.7.1). Must match pyproject.toml
+          Version being published (e.g. 0.7.2). Must match pyproject.toml
           exactly. Required so a manual run cannot silently publish whatever
           happens to be on the default branch.
         required: true

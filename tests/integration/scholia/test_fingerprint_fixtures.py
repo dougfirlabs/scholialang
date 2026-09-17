@@ -1,7 +1,7 @@
 """Shared fingerprint= fixture consumption — scholialang-spec, no forks.
 
 The ``fingerprint`` corpus lives ONCE in ``scholialang-spec`` at
-``tests/fixtures/fingerprint/`` (proposal: ``docs/scholia/FINGERPRINT.md``).
+``tests/fixtures/fingerprint/`` (approved contract: ``docs/scholia/FINGERPRINT.md``).
 Per the contract, implementations CONSUME that single copy rather than
 vendoring a fork. This suite locates the spec fixtures and drives the two
 layers the manifest distinguishes:

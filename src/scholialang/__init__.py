@@ -1,13 +1,18 @@
-"""Scholia — structured reasoning notation (v0.6).
+"""Scholia — Python reference implementation, package release 0.7.2.
 
-See ``docs/notation/NOTATION_REFERENCE.md`` for the canonical spec.
+Implements the stable Scholia v0.6.2 grammar plus the approved additive
+``fingerprint=`` contract. Package and validator versions move together;
+the grammar and registry-format versions are separate compatibility axes.
+The canonical spec lives at https://github.com/dougfirlabs/scholialang-spec;
+``scholialang-spec-ref.txt`` pins the exact conformance revision.
 
-v0.6 adds content-addressable ``canonical_id``s (a SHA-256 over each
+The language supports content-addressable ``canonical_id``s (a SHA-256 over each
 atom's structural identity), a DAG-backed :mod:`~scholialang.registry`,
-and the lazy canonical :mod:`~scholialang.prelude` — while staying
-back-compatible with v0.5 traces. The atom catalog is unchanged (32
-kinds); only the base ``Atom`` grows a ``canonical_id`` and the validator
-grows the ``canonical_id_well_formed`` rule.
+and the lazy canonical :mod:`~scholialang.prelude`. The atom catalog retains
+32 kinds. Optional ``Concluding.status`` records goal outcomes; explicitly
+linked Action results can close across Steps. ``Observation.fingerprint``
+adds a source-span hash whose structure, but not source content, is validated.
+Release 0.7.2 hardens forbidden-action matching in ``constraint_respected``.
 
 The package contains the language-level modules:
 
@@ -15,7 +20,8 @@ The package contains the language-level modules:
   6 primitive type aliases + the v0.6 ``compute_canonical_id`` hasher.
 * :mod:`scholialang.parser` — XML-ish text → AST (stamps canonical_ids).
 * :mod:`scholialang.serializer` — AST ↔ JSON ↔ YAML roundtrip.
-* :mod:`scholialang.validator` — validity rules from §9 + v0.6 rules.
+* :mod:`scholialang.validator` — grammar, reference, closure, constraint,
+  canonical-id, and fingerprint validation.
 * :mod:`scholialang.registry` — DAG-backed canonical_id-keyed store.
 * :mod:`scholialang.prelude` — v0.6 canonical-prelude renderer with the 3
   core modes (``hash_only`` / ``hash_list`` (default) / ``inline``); two

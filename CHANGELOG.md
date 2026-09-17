@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Refresh the README, API documentation, and contributor instructions for
+  package/validator 0.7.2 while preserving the stable v0.6.2 grammar distinction.
+- Remove the obsolete evaluation-summary link, which returns HTTP 404.
+- Replace stale fingerprint proposal labels and the obsolete `Finding.for_goal`
+  removal deadline with the current approved-contract and compatibility status.
+- Advance the pinned spec to include the shared constraint-regression corpus;
+  CI now requires it alongside the fingerprint fixtures.
+
 ## v0.7.2
 
 - Correct `constraint_respected` so noun phrases such as “Never a bare null”

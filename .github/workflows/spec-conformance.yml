@@ -15,7 +15,8 @@ jobs:
       - name: Install package
         run: python -m pip install -e ".[dev]"
       - name: Clone pinned spec at exact ref
-        # scholialang-spec-ref.txt pins the merged fingerprint contract
+        # scholialang-spec-ref.txt pins the approved fingerprint contract
+        # and the shared constraint_respected regression corpus
         # commit (a full SHA, not a tag). `git clone --branch` cannot resolve
         # an arbitrary SHA, so clone then fetch+checkout the exact commit —
         # works for a SHA, tag, or branch alike (scholialang#18).
@@ -28,6 +29,8 @@ jobs:
           echo "checked out: $(git -C ../scholialang-spec rev-parse HEAD)"
           test -f ../scholialang-spec/tests/fixtures/fingerprint/manifest.yaml \
             || { echo "::error::fingerprint fixtures absent at pinned ref ${ref}"; exit 1; }
+          test -f ../scholialang-spec/conformance/v0.6.2/constraint_respected.json \
+            || { echo "::error::constraint fixtures absent at pinned ref ${ref}"; exit 1; }
       - name: Validate spec examples
         run: python scripts/run_spec_conformance.py ../scholialang-spec
       - name: Fingerprint fixture conformance (fail-closed, all six)
