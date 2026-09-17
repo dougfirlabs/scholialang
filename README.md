@@ -127,5 +127,5 @@ separately under CC-BY-4.0.
 ## Specification and background
 
 - [Language specification](https://scholialang.org/spec)
-- [Approved fingerprint contract](https://github.com/dougfirlabs/scholialang-spec/blob/9c530ed71d19b0c407503b367472a4f8e7b8e151/docs/scholia/FINGERPRINT.md)
+- [Approved fingerprint contract](https://github.com/dougfirlabs/scholialang-spec/blob/02089621d21652b741e5a75a0b295c905848c97e/docs/scholia/FINGERPRINT.md)
 - [Historical v0.6 language introduction](https://scholialang.org/whats-new-in-v0.6)
