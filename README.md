@@ -12,10 +12,10 @@
 
 # scholialang
 
-Scholia helps agentic systems preserve reasoning state, use tools without
+Scholialang helps agentic systems preserve reasoning state, use tools without
 quality loss, and reduce context cost across long-horizon work. `scholialang`
 is the Python reference implementation of the language: the parser, validator,
-and core primitives that make Scholia traces portable, inspectable, and
+and core primitives that make Scholialang traces portable, inspectable, and
 reusable across sessions.
 
 The current package release is **0.7.2**, synchronized with
