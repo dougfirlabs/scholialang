@@ -123,8 +123,9 @@ def _run_fingerprint_fixtures(spec_dir: Path) -> tuple[int, list[str]]:
     (rebinds / span_mismatch / stale) recompute the digest over source using
     52X-B2's single definition and are NOT decided by a notation validator.
 
-    Absent corpus → ``(0, [])`` (nothing to check; the attribute is a proposal
-    and older spec checkouts predate it), never a hard failure.
+    Absent corpus → ``(0, [])`` for compatibility with older spec checkouts
+    that predate the approved contract. CI separately requires the pinned
+    fingerprint corpus and runs its integration tests in fail-closed mode.
     """
     manifest_path = spec_dir / "tests" / "fixtures" / "fingerprint" / "manifest.yaml"
     if not manifest_path.is_file():

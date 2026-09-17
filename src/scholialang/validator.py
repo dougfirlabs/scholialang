@@ -1,4 +1,4 @@
-"""Scholia validator — v0.2-v0.6 rules from the canonical spec.
+"""Scholia validator — stable v0.6.2 grammar plus additive fingerprint rules.
 
 Covers the cumulative rule set: the v0.2-v0.4 structural/reference rules,
 the v0.5 Concluding-scoped rules (for_goal_resolves, refer_at_least_one,
@@ -10,7 +10,8 @@ resolver. v0.6.2 extends ``action_recorded`` to accept later, explicitly
 REFER-linked results across Step boundaries. v0.7.1 adds the additive
 ``fingerprint_well_formed`` rule (see ``FINGERPRINT.md`` in scholialang-spec):
 hard-fail, vacuous when the attribute is absent, and purely structural -- it
-never recomputes a digest against source.
+never recomputes a digest against source. Package 0.7.2 corrects article-bearing
+constraints and requires complete forbidden-action token boundaries.
 
 ``SCHOLIA_VALIDATOR_VERSION`` tracks the package version and reads ``0.7.2``.
 It was versioned separately through 0.6.2; as of the 0.7.1 synchronized suite
@@ -100,8 +101,8 @@ RULE_SINGLE_ACTIVE_CONCLUDING_PER_GOAL = "single_active_concluding_per_goal"
 RULE_MIN_CONFIDENCE_CEILING = "min_confidence_ceiling"
 # v0.6 — content-addressable canonical_id integrity (hard-fail).
 RULE_CANONICAL_ID_WELL_FORMED = "canonical_id_well_formed"
-# v0.6.x-proposed — fingerprint= well-formedness (hard-fail; vacuous when
-# absent). See docs/scholia/FINGERPRINT.md §3.
+# Package 0.7.1 — approved additive fingerprint= contract (hard-fail;
+# vacuous when absent). See scholialang-spec/docs/scholia/FINGERPRINT.md §3.
 RULE_FINGERPRINT_WELL_FORMED = "fingerprint_well_formed"
 
 RULE_NAMES: tuple[str, ...] = (
@@ -607,13 +608,13 @@ def check_canonical_id_well_formed(
     return errors
 
 
-# ── v0.6.x-proposed — fingerprint= well-formedness (hard-fail) ───────
+# ── Approved additive fingerprint= well-formedness (hard-fail) ───────
 
 
 def check_fingerprint_well_formed(
     trace: list[Step], _index: dict[str, Atom]
 ) -> list[ValidationError]:
-    """v0.6.x-proposed — every atom carrying a ``fingerprint`` is well-formed.
+    """Approved contract — every atom carrying a ``fingerprint`` is well-formed.
 
     See ``docs/scholia/FINGERPRINT.md`` §3. The rule is purely structural
     and additive, mirroring ``canonical_id_well_formed``:

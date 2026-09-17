@@ -1,17 +1,17 @@
-"""Scholia atom catalog — v0.6 shared contract.
+"""Scholia atom catalog — stable v0.6.2 grammar with additive fingerprints.
 
 This module is the canonical set of types for the Scholia notation.
 It is pure: no I/O, no parsing logic, no validation logic, no network.
 
-v0.6 adds content-addressable ``canonical_id`` — a SHA-256 hash of the
-atom's structural identity (``{kind, content, attrs}``, provenance
+The v0.6 language introduced content-addressable ``canonical_id`` — a SHA-256
+hash of the atom's structural identity (``{kind, content, attrs}``, provenance
 excluded). The catalog stays the v0.5 closed set (32 kinds); only the
 base ``Atom`` grows a ``canonical_id`` field plus the
 ``compute_canonical_id`` hasher. The hash is defined to be byte-identical
 across Scholia implementations so the same structural atom emitted from
 different sessions/hosts addresses to the same id.
 
-Spec source: ``docs/notation/NOTATION_REFERENCE.md`` §3 (atoms),
+Spec source: ``scholialang-spec/docs/notation/NOTATION_REFERENCE.md`` §3 (atoms),
 §4 (operators), §5 (primitives), §6 (Step container). Any change here
 that diverges from the reference doc is a bug — update the reference
 doc first.
@@ -144,7 +144,8 @@ class Observation(Atom):
     NOT guess line numbers. The validator enforces the format regex
     via ``check_location_edge_shape``.
 
-    v0.6.x-proposed (``docs/scholia/FINGERPRINT.md``) adds an OPTIONAL
+    Package 0.7.1 implements the approved additive contract in
+    ``scholialang-spec/docs/scholia/FINGERPRINT.md``: an OPTIONAL
     ``fingerprint`` — a ``<algo>:<hex>`` content hash of the source span
     at ``location`` so a later consumer can mechanically re-verify the
     claim (symbol unchanged / moved / stale). It is strictly additive:
@@ -198,7 +199,7 @@ class Evidence(Atom):
 _FOR_GOAL_DEPRECATION_MSG = (
     "Finding.for_goal is deprecated in Scholia v0.5; use for_hyp instead. "
     "A Finding evaluates a Hypothesis, not a Goal. for_goal is preserved "
-    "for v0.4 compatibility and will be removed in v0.6."
+    "as a deprecated v0.4 compatibility alias."
 )
 
 

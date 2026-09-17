@@ -1,4 +1,4 @@
-"""v0.6.x-proposed — fingerprint= attribute + ``fingerprint_well_formed`` rule.
+"""Approved fingerprint= contract, implemented since package 0.7.1.
 
 Source-level audit for the additive ``fingerprint`` attribute on
 location-bearing atoms (``docs/scholia/FINGERPRINT.md``). The attribute is a

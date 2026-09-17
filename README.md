@@ -12,16 +12,23 @@
 
 # scholialang
 
-Scholia helps agentic systems preserve reasoning state, use tools without
+Scholialang helps agentic systems preserve reasoning state, use tools without
 quality loss, and reduce context cost across long-horizon work. `scholialang`
 is the Python reference implementation of the language: the parser, validator,
-and core primitives that make Scholia traces portable, inspectable, and
+and core primitives that make Scholialang traces portable, inspectable, and
 reusable across sessions.
 
-Scholia v0.6 builds on content-addressed reasoning traces. The v0.6 language
-keeps the v0.5 closed vocabulary and adds the content-addressed substrate:
-optional `canonical_id` hashes, a canonical-id-keyed DAG registry, and the
-three core lazy-prelude modes `hash_only`, `hash_list`, and `inline`.
+The current package release is **0.7.2**, synchronized with
+[`scholialang-mcp`](https://github.com/dougfirlabs/scholialang-mcp).
+It implements the stable **Scholia v0.6.2 language grammar**, plus the
+approved additive `fingerprint=` contract.
+
+> Package and grammar versions are separate: `scholialang.__version__` and
+> `SCHOLIA_VALIDATOR_VERSION` both report `0.7.2`. The grammar and shared
+> conformance baseline remain `v0.6.2`; references to that grammar do not
+> indicate an outdated Python package.
+
+## Current scope
 
 It contains the language-level pieces only:
 
@@ -36,29 +43,65 @@ It contains the language-level pieces only:
 - JSON/YAML serializers
 - Markdown/XML renderers
 
-Host-runtime concerns such as trace persistence, enrichment,
-adjudication, and proof-graph bridging live outside this package.
+Host-runtime concerns such as session trace persistence, enrichment,
+adjudication, and proof-graph bridging live outside this package. MCP/LSP
+servers and harness plugins live in `scholialang-mcp`.
 
-## Current v0.6 Scope
+The language retains the 32-kind closed vocabulary and 11 operators, with
+optional content-addressed `canonical_id` hashes, canonical-id-aware reference
+resolution, a local DAG registry, and three core lazy-prelude modes:
+`hash_only`, `hash_list` (default), and `inline`. The recovery modes
+`hash_semantic_preview` and `selective_inline_plus_hash_only` remain
+experimental and require `allow_experimental=True`.
 
-`scholialang` owns the language runtime for the v0.6 scope: the 32-kind
-closed vocabulary inherited from v0.5, optional `canonical_id` computation and
-validation, canonical-id-aware reference resolution, the local DAG registry
-primitive, and the three finalized lazy-prelude modes. MCP servers, editor
-clients, host plugins, and public launch pages live in sibling repositories.
+Recent releases also provide:
+
+- Optional `Concluding.status` values: `met`, `unmet`, and `partially_met`.
+- Action-result validation that accepts explicitly linked results in later
+  Steps while rejecting unrelated or order-only results.
+- Optional `Observation.fingerprint` values (`<algo>:<hex>`) paired with a
+  `location`. Validation checks their structure; consumers recheck the digest
+  against source. Fingerprints do not change an atom's `canonical_id`.
+- The **0.7.2 constraint-validation fix**: article-bearing phrases such as
+  “Never a bare null” no longer treat `a` as a forbidden verb, and forbidden
+  actions match complete tokens rather than substrings of unrelated words.
+
+See the [changelog](CHANGELOG.md) and
+[0.7.2 release notes](https://github.com/dougfirlabs/scholialang/releases/tag/v0.7.2).
 
 ## Install
 
-```sh
-pip install scholialang
-```
+Requires **Python 3.11 or newer**.
 
-For local development:
+Install or upgrade to the latest published release:
 
 ```sh
-pip install -e '.[dev]'
-pytest
+python -m pip install --upgrade scholialang
 ```
+
+To reproduce this release, use `python -m pip install 'scholialang==0.7.2'`.
+
+## Quick start
+
+```python
+from scholialang import __version__, parse, validate
+
+trace = parse('''
+<Step id="Step_0001">
+  <Goal id="Goal_0001">Check the documented package version.</Goal>
+  <Observation id="Observation_0001">The package release is 0.7.2.</Observation>
+  <Concluding id="Concluding_0001" for_goal="Goal_0001" status="met">
+    REFER:Observation_0001 The documented release matches the package.
+  </Concluding>
+</Step>
+''')
+result = validate(trace)
+assert result.ok, result.errors
+print(__version__, result.scholia_validator_version)  # 0.7.2 0.7.2
+```
+
+For local development and the pinned spec-conformance checks, see
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Related Repositories
 
@@ -67,7 +110,10 @@ pytest
 - [`scholialang-mcp`](https://github.com/dougfirlabs/scholialang-mcp) -
   MCP, LSP, and host plugin tooling
 
-This package tracks Scholia language version `v0.6.2`.
+The exact specification commit used by CI is recorded in
+[`scholialang-spec-ref.txt`](scholialang-spec-ref.txt). Both implementation
+repositories pin the same approved fingerprint contract and constraint
+regression corpus, and consume their shared fixtures.
 
 ## License
 
@@ -78,8 +124,8 @@ MIT or Apache-2.0, at your option. See `LICENSE`, `LICENSE-MIT`, and
 The normative specification prose lives in `scholialang-spec` and is licensed
 separately under CC-BY-4.0.
 
-Useful launch links:
+## Specification and background
 
-- Spec: https://scholialang.org/spec
-- What's new in v0.6: https://scholialang.org/whats-new-in-v0.6
-- Eval summary: https://scholialang.org/eval-summary
+- [Language specification](https://scholialang.org/spec)
+- [Approved fingerprint contract](https://github.com/dougfirlabs/scholialang-spec/blob/02089621d21652b741e5a75a0b295c905848c97e/docs/scholia/FINGERPRINT.md)
+- [Historical v0.6 language introduction](https://scholialang.org/whats-new-in-v0.6)
