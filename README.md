@@ -69,6 +69,11 @@ pytest
 
 This package tracks Scholia language version `v0.6.2`.
 
+> **Two version axes:** `0.7.2` is the Python package/plugin release. `v0.6.2`
+> is the stable Scholia language grammar it implements. References to “v0.6”
+> in grammar documentation do not mean that an older `0.6.x` package is
+> installed. Public UI and bundle copy should always name both axes.
+
 ## License
 
 The `scholialang` reference implementation is dual-licensed under either
